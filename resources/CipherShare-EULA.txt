@@ -1,0 +1,66 @@
+PROVEN SECURITY SOLUTIONS INC. END-USER LICENSE AGREEMENT
+
+IMPORTANT - THIS IS A LEGAL AGREEMENT BETWEEN YOU ("THE LICENSEE") AND PROVEN SECURITY SOLUTIONS INC. ("PROVEN").
+
+Proven licenses the accompanying software and related documentation (the "Software") to the "Licensee" pursuant to license agreements with its licensers, but only on the condition that the licensee accepts the terms of this End-User License Agreement (the "Agreement"). Please read these terms carefully before continuing installation. By installing, copying or otherwise using the Software, the licensee agrees to be bound by the terms of this Agreement. If the licensee does not agree to these terms, Proven is unwilling to license the Software to the licensee. In such event, the licensee may not use or copy the Software. The licensee should return the full product with proof of purchase to Proven within thirty (30) days of purchase and the licensee will receive a refund.
+
+SOFTWARE LICENSE. 
+Provided the licensee accepts the terms of this Agreement and has paid the appropriate license fee, and except as may be modified by a license addendum which accompanies the Software, the licensee's rights and obligations with respect to the use of the Software are as follows. 
+
+The licensee may, subject to the terms of this Agreement:
+
+(i) Install and use one copy of the CipherShare Server software for each CipherShare Server License you have purchased and are entitled to;
+
+(ii) Create only one user account on the CipherShare Server for each CipherShare Client License you have purchased and are entitled to;
+
+(iii) Use the CipherShare Client software on each computer used by a CipherShare account holder;
+
+
+The licensee may not, nor permit others, to:
+
+(i) reverse engineer, decompile, or reverse assemble the Software, in whole or in part;
+
+(ii) use, copy, merge, transfer, sublicense, rent, lease, time-share, merge, or otherwise distribute the Software or related documentation, or any copy of the Software or related documentation, in whole or in part, except as expressly provided for in this Agreement;
+
+(iii) Alter, adapt, modify, or translate the Software or related documentation, in whole or in part, in any way, for any purpose, including, without limitation, error correction.
+
+
+TITLE TO SOFTWARE
+Proven and its licensers retain, at all times, exclusive title and ownership to the Software, including all intellectual property rights such as copyrights, trade secrets, patents and trademarks, service marks in the Software. The Software is protected by copyright laws and international copyright treaties, as well as other intellectual property laws, patent laws and treaties.
+
+
+THIRD PARTY SOFTWARE
+Some software distributed with this Product may include source code, redistributable files and/or other files provided by third party vendors.  Complete copies of the respective Vendor's license agreements are provided in the readme.txt file located on the Product CD and in the installation directory, where required under the terms and conditions of those licenses. Since use of third party product might be subject to license restrictions imposed by the third party vendor, you should refer to provided documentation for any license restrictions imposed by a third party vendor that are in addition to, not in lieu of, the terms and conditions of this Agreement. Note that these license agreements were current at the time of printing and are subject to change without notice. 
+
+TERMINATION
+The Software license is effective until terminated. The licensee may terminate it at any time by destroying the Software and related documentation. The license shall also terminate if the licensee fails to comply with any of the terms of this Agreement. The licensee agrees upon such termination to destroy the Software and related documentation. 
+Any use of the Software or related documentation after termination of this license is unlawful.
+
+LIMITED WARRANTY
+Proven warrants that the Software will perform in substantial conformance with its published specifications for a 30-day period commencing on the date of shipment to the licensee (the "Warranty Period"). If a substantial nonconformity is reported to Proven in writing during the Warranty Period, then Proven will, at its sole discretion, remedy the nonconformity or offer to refund the license fee paid by the licensee for the defective Software upon return of all copies of it. If a refund is provided, the Software license is terminated.
+
+Proven warrants the media on which the Software is distributed to be free from defects under normal use for the Warranty Period. Proven will replace any defective media during the Warranty Period. 
+
+The warranties of Proven hereunder shall be the full extent of the obligations of Proven and its licensers in all or any situations involving performance or nonperformance of the Software and related documentation and are in lieu of all other warranties or conditions, expressed or implied, including, but not limited to, implied warranties or conditions of merchantability, merchantable quality, fitness for a particular purpose, infringement and those arising by statute or otherwise in law or from a course of dealing or usage of trade.
+
+Proven does not represent or warrant that the operation of the Software will be error-free or uninterrupted, or that all programming errors in the Software can be found in order to be corrected or that the Software will meet any or all of the licensee’s requirements.
+
+LIMIT OF LIABILITY
+Proven's liability to the licensee for actual damages for any causes whatsoever and regardless of form of action, shall not exceed the license fee, the licensee paid for the Software.
+
+In no event will Proven or its licensers be liable to the licensee for special, indirect or consequential damages, including, but not limited to, lost data, lost business revenue, failure to realize expected profits or savings or other commercial or economic loss of any kind, arising out of the use or inability to use the Software, even if Proven has been advised of the possibility of such damages. In no event will Proven or its licensers be liable to the licensee for any claim against the licensee by any third party.
+
+CONFIDENTIALITY
+The licensee acknowledges that Proven and its licensers have a proprietary interest in the Software and that it is confidential information of Proven and its licensers. The licensee will ensure that the Software is kept confidential and used only as permitted in this Agreement.
+
+EXPORT RESTRICTIONS
+The Software is subject to export restrictions. The licensee must comply with all applicable export, import, or other relevant laws of any applicable jurisdiction.  Determination of the applicable law is Licensee’s responsibility.  Licensee understands that the Software is cryptographic in nature and therefore the Software is highly regulated.  Licensee is strictly prohibited from exporting, re-exporting or importing the Software regardless of method (including, for example and not by limitation by use of physical delivery, e-mail, or download from FTP or website, etc.), without first complying with all applicable government use, import, or export laws, rules, regulations, orders, and obtaining any necessary approvals or permits. Obtaining any necessary export or import approval for the Software is the sole responsibility of Licensee. 
+
+U.S. GOVERNMENT RESTRICTED RIGHTS
+For purposes of use of the Materials by the U.S. Government, the Materials are provided as Commercial Computer Software and Commercial Computer Software Documentation, and use, duplication and disclosure by the U.S. Government is subject to the requirements set forth in FAR 52-227-19 "Commercial Computer Software - Restricted Rights" and its successors in effect for all solicitations and resulting contract issued on or after May 18, 1997, FAR 12.212(a) (Oct. 2000), FAR 52.227-19 (Jun. 1987), or FAR 52.227-14 (JUN 1987), DFARS 227.7202 (Oct. 1998), "Commercial Computer Software and Commercial Computer Software Documentation", and DFARS 252.227-7013(c) (Nov. 1995), and any future amendments or successor regulations, as applicable.  
+
+ASSIGNMENT
+The licensee may not assign or transfer this Agreement except as expressly provided for herein. Any attempt to otherwise assign or transfer any of the rights, duties, or obligations hereunder is void. 
+
+GENERAL
+This Agreement is governed by the laws in force in the Province of Ontario, Canada. If any part of this Agreement is held by a court of competent jurisdiction to be unenforceable, the validity of the remainder of the Agreement will not be affected. The failure of Proven to require performance by the Licensee of any provision in this Agreement shall not affect the full right to require such performance at any time thereafter; nor shall the waiver by Proven of a breach of any provision hereof be taken or held to be a waiver of the provision itself. This Agreement is the complete and exclusive statement of the agreement between the parties and supersedes any proposal or prior agreement, oral or written, and any other communications relating to the subject matter of this Agreement. Neither party shall have the right to assign or delegate any portion of this Agreement or its rights or obligations hereunder without the prior written consent of the other party, except that Proven shall have the right to assign this Agreement to an affiliate.

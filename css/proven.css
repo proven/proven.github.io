@@ -1,0 +1,221 @@
+h1 
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 18px;
+   COLOR:#003366}
+
+h1.white
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 18px;
+   COLOR:#FFFFFF}
+   
+font.whitebold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 16px;
+   COLOR:#FFFFFF}
+   
+font.midwhitebold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 12px;
+   COLOR:#FFFFFF}
+   
+font.midwhite
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: normal;
+   FONT-SIZE: 12px;
+   COLOR:#FFFFFF}
+   
+font.smallwhite
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 10px;
+   COLOR:#FFFFFF}
+
+h1.Red
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 18px;
+   COLOR:#CC0000}
+
+h1.MidRed
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 16px;
+   COLOR:#CC0000}
+
+h1.SmallerRed
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 14px;
+   COLOR:#CC0000}
+   
+font.redbold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 16px;
+   COLOR:#CC0000}
+   
+font.midredbold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 14px;
+   COLOR:#CC0000}
+   
+font.smallerredbold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 11px;
+   COLOR:#CC0000}
+   
+font.smallredbold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 11px;
+   COLOR:#CC0000}
+
+font.smallredboldright
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 11px;
+   COLOR:#CC0000}
+
+font.smallred
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: normal;
+   FONT-SIZE: 11px;
+   COLOR:#CC0000}
+
+h1.Smallerblue
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 14px;
+   COLOR:#003366}
+   
+font.largebluebold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 20px;
+   COLOR:#003366}
+
+font.bluebold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 16px;
+   COLOR:#003366}
+
+font.midbluebold
+
+  {FONT-FAMILY: arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 14px;
+   COLOR:#003366}
+   
+font.midblue
+
+  {FONT-FAMILY: arial;
+   FONT-WEIGHT: normal;
+   FONT-SIZE: 14px;
+   COLOR:#003366}
+      
+font.smallerblue
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: normal;
+   FONT-SIZE: 12px;
+   COLOR:#003366}
+
+font.smallbluebold
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: bold;
+   FONT-SIZE: 12px;
+   COLOR:#003366}
+
+font.smallblue
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: normal;
+   FONT-SIZE: 12px;
+   COLOR:#003366}
+   
+font.smallestblue
+
+  {FONT-FAMILY: geneva,helvetica,arial;
+   FONT-WEIGHT: normal;
+   FONT-SIZE: 10px;
+   COLOR:#003366}
+
+h3 {color: #003366}
+
+a.red {color: #CC0000; font-weight:bold; font-family:arial; font-size: 16px; text-decoration: none }
+
+a:hover.red {color:#003366}
+
+a.midredbold {color: #CC0000; font-weight:bold; font-family:arial; font-size: 14px; text-decoration: none }
+
+a:hover.midredbold {color:#003366}
+
+a.smallerredbold {color: #CC0000; font-weight:bold; font-family:arial; font-size: 11px; text-decoration: none }
+
+a:hover.smallerredbold {color:#003366}
+
+a.midredbold {color: #CC0000; font-weight:bold; font-family:arial; font-size: 14px; text-decoration: none }
+
+a:hover.midredbold {color:#003366}
+
+a.smallerredboldright {color: #CC0000; font-align:right; font-weight:bold; font-family:arial; font-size: 11px; text-decoration: none }
+
+a:hover.smallerredboldright {color:#003366}
+
+a.smallestredbold {color: #CC0000; font-align:right; font-weight:bold; font-family:arial; font-size: 9px; text-decoration: none }
+
+a:hover.smallestredbold {color:#003366}
+
+a.white {color: #FFFFFF; font-weight:bold; font-family:arial; font-size: 16px; text-decoration: none }
+
+a:hover.white {color:#003366}
+
+a.smallred {color: #CC0000; font-weight:bold; font-family:arial; font-size: 10px; text-decoration: none }
+
+a:hover.smallred {color:#003366}
+
+a.blue {color: #003366; font-weight:bold; font-family:arial; font-size: 16px; text-decoration: none }
+
+a:hover.blue {color:#CC0000}
+
+a.smallbluebold {color: #003366; font-weight:bold; font-family:arial; font-size: 12px; text-decoration: none }
+
+a:hover.smallbluebold {color:#CC0000}
+
+a.smallerbluebold {color: #003366; font-weight:bold; font-family:arial; font-size: 10px; text-decoration: none }
+
+a:hover.smallerbluebold {color:#CC0000}
+
+a.smallerblue {color: #003366; font-weight:bold; font-family:arial; font-size: 10px; text-decoration: none }
+
+a:hover.smallerblue {color:#CC0000}
+
+a.smallwhite {color: #FFFFFF; font-weight:bold; font-family:arial; font-size: 10px; text-decoration: none }
+
+a:hover.smallwhite {color:#CC0000}
