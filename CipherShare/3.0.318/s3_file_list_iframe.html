@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 
-<!-- 
+<!--
 Copyright (c) 2012 Adam Pritchard
-Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+Licensed under the MIT license: https://www.opensource.org/licenses/mit-license.php
 
 https://github.com/adam-p/s3-file-list-page
 
-Note that this page must be loaded directly from the s3 bucket domain, like 
-this: 
-  http://www.domainname.com.s3.amazon.com/path/s3_file_listing_iframe.html
+Note that this page must be loaded directly from the s3 bucket domain, like
+this:
+  https://www.domainname.com.s3.amazon.com/path/s3_file_listing_iframe.html
 ...otherwise cross-domain rules will prevent it from obtaining the file listing.
 
 The intended use for this file is as the source for an iframe. It will allow
@@ -26,14 +26,14 @@ by cross-domain browser rules.
     <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="https://jstree.googlecode.com/svn/trunk/jquery.jstree.js"></script>    
+    <script type="text/javascript" src="https://jstree.googlecode.com/svn/trunk/jquery.jstree.js"></script>
 
     <script>
       var bucket_url = window.location.protocol + '//' + window.location.hostname;
       var current_dir = window.location.pathname.split('/').slice(1, -1).join('/');
       var prefix = current_dir + '/';
 
-      $(window).load(function() { 
+      $(window).load(function() {
         if (bucket_url.indexOf('.s3.amazonaws.com') < 0) {
           $('#file_listing').html('<h1>This page must be loaded via bucketname.s3.amazonaws.com or else cross-domain rules will prevent it from functioning correctly.</h1>');
           return;
@@ -66,16 +66,16 @@ by cross-domain browser rules.
         $container.html('');
 
         // Insert the tree stucture into the container as nested lists.
-        
+
         // Insert the root elements.
-        var $topmost_ul = $('<ul>'); 
+        var $topmost_ul = $('<ul>');
         $topmost_ul.append($('<li id="jstreeroot"><a href="#">'+$(contents[0]).find('Key').text()+'</a></li>'));
-        var $root_ul = $('<ul>'); 
+        var $root_ul = $('<ul>');
         $topmost_ul.find('li').append($root_ul);
-        
+
         // Move this below the loop if you don't want to see the tree
         // appear piecemeal.
-        $container.append($topmost_ul); 
+        $container.append($topmost_ul);
 
         // Start from 1 to skip the root item.
         for (var i = 1; i < contents.length; i++) {
@@ -87,18 +87,18 @@ by cross-domain browser rules.
             continue;
           }
 
-          // Some behaviour is different depending on whether the item is a 
+          // Some behaviour is different depending on whether the item is a
           // node (directory, so expand) or leaf (file, so download).
           var click_action = '';
           var is_dir = /^(.*)\/$/.exec(key); // dirs end with /
           if (is_dir) {
             // strip trailing /
-            key = key.slice(0, -1); 
+            key = key.slice(0, -1);
             // the action will be to toggle the node expand state
             click_action = 'href="javascript:void(0)" onclick="toggle_node(this.parentNode, \''+$container.prop('id')+'\')"';
           }
           else {
-            // the action will be to download the file 
+            // the action will be to download the file
             click_action = 'href="/'+key+'"';
           }
 
@@ -119,7 +119,7 @@ by cross-domain browser rules.
         }
 
         // Convert the nested list structure into a jstree.
-        
+
         $('#file_listing').jstree(
           {
             plugins: ['html_data', 'themeroller'],
@@ -128,12 +128,12 @@ by cross-domain browser rules.
             }
           }
         ).bind("loaded.jstree", function() {
-          // The styling that we get by default doesn't look very good, so 
-          // we'll tweak it a bit. 
-          // The ui-state-default gives a background and border.          
+          // The styling that we get by default doesn't look very good, so
+          // we'll tweak it a bit.
+          // The ui-state-default gives a background and border.
           $('a').css('background', 'transparent');
           $('a').css('border', '0');
-          $('.jstree li').css('margin-top', '5px');          
+          $('.jstree li').css('margin-top', '5px');
         });
       }
 
@@ -142,7 +142,6 @@ by cross-domain browser rules.
         $('#'+tree_container_id).jstree('toggle_node', node_elem);
       }
 
-      // From: http://milesj.me/snippets/javascript/slugify
       /**
        * Transform text into a URL slug: spaces turned into dashes, remove non alnum
        * @param string text
@@ -171,7 +170,7 @@ by cross-domain browser rules.
     <div id="file_listing">
       Loading file info...
     </div>
-    
+
   </body>
 
 </html>
