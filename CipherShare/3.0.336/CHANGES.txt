@@ -1,0 +1,3014 @@
+==========================================================================================
+CHANGES.txt
+==========================================================================================
+
+------------------------------------------------------------------------------------------
+Build 3.0.336 - March 14, 2025
+------------------------------------------------------------------------------------------
+
+*) Scripting client: Previously, the client would abort if the user required account or
+   password recovery enrollment; now, the default is for the command to proceed, with a
+   warning. If the old behaviour is desired, a new `-StrictRecoveryEnrollment` flag can be
+   passed on the command line.
+
+------------------------------------------------------------------------------------------
+Build 3.0.335 - April 20, 2024
+------------------------------------------------------------------------------------------
+
+*) Enable document Compare Changes command for all file types. Previously, the command was
+   enabled for only a small set of file types (mostly those supported by MS Word). Now the
+   command is enabled for all file types and there is a local Option where a diff command
+   can be set (defaulting for VS Code, as it's free and this is most likely to be used for
+   text file types).
+
+*) Scripting client: Added more info to Export errors.
+
+*) Changed NumberFormat implementation to fix error when running the client on Linux using
+   Wine.
+
+------------------------------------------------------------------------------------------
+Build 3.0.334 - February 26, 2023
+------------------------------------------------------------------------------------------
+
+*) Allow password pasting. (With one exception: the archive executable.)
+
+*) Fixed bug: A document with a version larger than about 4 GB couldn't be downloaded.
+
+*) Make all links to provensecuritysolutions.com explicitly HTTPS.
+
+*) Scripting client: Create a log file located in the DB root directory. (This is
+   especially useful when running the scripting client on a headless Linux machine, under
+   Wine.)
+
+*) Scripting client: Add ability to batch operations. Previously, each operations required
+   a separate execution of the app, involving a separate connection sequence. This meant
+   that multiple operations would be quite slow. Now it's possible to batch multiple
+   operations, requiring only a single connection. You can run the scripting client to
+   see the command line arguments, but it looks generally like this:
+   > CipherShareScriptingClient.exe CONNECT_OPTIONS COMMAND COMMAND_OPTIONS [COMMAND COMMAND_OPTIONS ...]
+   Note that the new command line format is not backwards compatible, so any existing
+   scripts will need to have the argument rearranged a little (so the connection options
+   are at the start).
+
+------------------------------------------------------------------------------------------
+Build 3.0.333 - April 17, 2020
+------------------------------------------------------------------------------------------
+
+*) Service release including 3.0.332 code changes.
+
+------------------------------------------------------------------------------------------
+Build 3.0.332 - September 11, 2019
+------------------------------------------------------------------------------------------
+
+*) Add "delete" command to scripting client.
+
+*) Increase network protocol MAX_MESSAGE_SIZE to support documents with very large
+   metadata.
+
+*) Change memory allocation scheme used in object serialization to speed up
+   serialization of objects with many components.
+
+*) Allow a much larger reconstruction memory limit to be set in Streaming Settings.
+
+------------------------------------------------------------------------------------------
+Build 3.0.331 - December 12, 2011
+------------------------------------------------------------------------------------------
+
+*) Scripting client bug fixes. If the current user had the target document locked in
+   another CipherShare database, these bad behaviours would occur:
+    * LockDocument would indicate that the document is already locked and exit with a
+      return value of 0.
+    * UnlockDocument would override the lock, resulting in the other CipherShare instance
+      losing the lock and the local instance gaining it.
+    * ImportDocument would fail with the following message:
+        Error: request_create_object_version failed
+    Now all of those actions will result in a return value of 1 and the following message:
+      Error: Document locked by current user in a different CipherShare instance
+
+------------------------------------------------------------------------------------------
+Build 3.0.330 - October 5, 2011
+------------------------------------------------------------------------------------------
+
+*) Scripting client changes:
+    * Added three new commands: ExportDocument, LockDocument, and UnlockDocument (in
+      addition to the existing ImportDocument command).
+    * Information about the new commands, including their options, can be found by executing:
+        CipherShareScriptingClient.exe Help COMMANDNAME
+    * A listing of available commands can be found by executing:
+        CipherShareScriptingClient.exe Help
+    * Added a new option to ImportDocument command: -KeepLocked. If the flag is not
+      present, the lock will be released. If it is present, the lock will be kept.
+
+------------------------------------------------------------------------------------------
+Build 3.0.329 - June 16, 2011
+------------------------------------------------------------------------------------------
+
+*) Emit each enabled user along with license count info in server log file.
+
+*) Added conditionally-compiled code that will make View, Edit, and Explore work on Mac
+   under Crossover (and maybe Wine).
+
+------------------------------------------------------------------------------------------
+Build 3.0.328 - October 26, 2010
+------------------------------------------------------------------------------------------
+
+*) Fixed bug: Create/Import wizard on Windows Vista and Windows 7 are no longer cut off at
+   the bottom.
+
+*) Scripting client changes:
+     * If scripting client user is Author in the Share Group, user will be Author on the
+       resulting document. Otherwise user will be Manager.
+     * Added -AddVersionIfExists option. If that flag set and the indicated document
+       already exists, a new version will be added to the document, rather than it being
+       deleted and re-created. The -Description, -Status, and -AutomaticEmailNotification
+       flags are ignored when a new version is being created.
+     * If a new version is being added and the document is already locked when the
+       scripting client is run, the document will be left locked when it's done.
+
+------------------------------------------------------------------------------------------
+Build 3.0.327 - August 29, 2010
+------------------------------------------------------------------------------------------
+
+*) Softened the language of fatal errors (mostly by removing the word "fatal" and
+   emphasizing that an application restart is needed).
+
+*) Added user license count output to server log every time the license count changes.
+
+*) Fixed bug: FATAL error would occur if, in the Connect dialog, a user with no connection
+   profiles selected the default "My Profile" from the connection profiles combo box.
+
+*) Fixed typo: On Office Security Options Miscellaneous page:
+   "Allowing skipping" --> "Allow skipping"
+
+*) Further increased compression buffer size, to be on the safe side (see 3.0.325 for
+   details).
+
+------------------------------------------------------------------------------------------
+Build 3.0.326 - December 28, 2009
+------------------------------------------------------------------------------------------
+
+*) Fixed bug: Setting key expiry months to a value that isn't a multiple of twelve would
+   cause fatal errors when users tried to log in.
+
+------------------------------------------------------------------------------------------
+Build 3.0.325 - September 28, 2009
+------------------------------------------------------------------------------------------
+
+*) Compare Changes function now works for .docx files (Word 2007 format).
+
+*) .docx is now on "safe extensions" list by default.
+
+*) Fixed bug: In Vista and higher, minimizing while locked out would put the app into a
+   state where it can't be restored. Changed lockout-minimize behaviour for all Windows
+   versions. It now dismisses the lockout dialog on minimize and re-creates it on
+   restore/maximize.
+
+*) Fixed bug: Share groups dialog wasn't resizing properly.
+
+*) Changed default client download location from ftp://ftp... to http://www...
+
+*) Fixed bug: Compression buffer wasn't large enough, resulting in this fatal error:
+   Function: ciphershare_crypto_manager::wrap_package
+   Line: 436
+   Error Code: 0
+   Error: -5
+
+------------------------------------------------------------------------------------------
+Build 3.0.324 - November 2, 2008
+------------------------------------------------------------------------------------------
+
+*) Fixed fatal that was occasionally occurring on Vista. It appears there is a delay
+   between DeleteFile succeeding and that filename being available in the filesystem. So
+   added retry to MoveFile.
+
+*) Fixed bug (introduced in last release): If Account Recovery was enabled by first SO
+   when initially setting up the Office Security Policy, a fatal error would occur shortly
+   thereafter, preventing the user from continuing to use the office.
+
+------------------------------------------------------------------------------------------
+Build 3.0.323 - September 28, 2008
+------------------------------------------------------------------------------------------
+
+*) New Security Policy option to disable composing/sending messages and starting chats.
+
+*) Account Recovery enrollment dialog is displayed regardless of number of trusted peers.
+
+*) Fixed bug: work offline with expired keys would fatal in signature check if audit
+   contained modify share list entries for multiple users.
+
+*) Fixed bug: Detect-new-work-files import would silently skip files that were open by
+   native app. Now there is a prompt to close the app to skip the file. If the file is
+   re-opened after the import begins, it will be skipped and a log will be created.
+
+*) Fixed "disable email notification" option. The menu command was disabled, but you could
+   still do check-in-time and create-time notification. (Including auto-email-notify
+   triggered.)
+
+*) Increased maximum size of connect profiles combo box. This makes it easier to get to
+   the desired profile when there are many to choose from. (Per user request.)
+
+*) Fixed invalid FATAL when more than threshold number of splits available during
+   account recovery.
+
+------------------------------------------------------------------------------------------
+Build 3.0.322 - February 22, 2008
+------------------------------------------------------------------------------------------
+
+*) Updated copyrights to 2008.
+
+*) Server MAC in license code is no longer checked.
+
+*) Fixed scalability issue: trust calculation too slow in share dialogs.
+
+*) Fixed resource leak: trust icon.
+
+*) Fixed manifest.
+
+*) Fixed bugs in Move Documents and Automatic Email Notification that would cause
+   FATAL error if affected document is unshared or deleted in the midst of the operation.
+
+*) User manager: Enhanced moving of users between sections. Added auto-scrolling and
+   auto-expanding while dragging. Added Move button and dialog box to select destination
+   section. This fixes a bug where it was impossible to move a user to a section that was
+   not currently visible on the screen.
+
+------------------------------------------------------------------------------------------
+Build 3.0.321 - March 26, 2007
+------------------------------------------------------------------------------------------
+
+*) Added menu command for batch configuration of automatic email notification attribute
+
+------------------------------------------------------------------------------------------
+Build 3.0.320 - March 18, 2007
+------------------------------------------------------------------------------------------
+
+*) Added automatic email notification feature and email notification checkbox on
+   check in dialog
+
+------------------------------------------------------------------------------------------
+Build 3.0.319 - October 23, 2006
+------------------------------------------------------------------------------------------
+
+*) rebranded for Proven Security Solutions
+
+*) fixed bug: Export and Archive were still available on Versions dialog, even if the
+   commands were disabled
+
+------------------------------------------------------------------------------------------
+Build 3.0.318 - December 8, 2005
+------------------------------------------------------------------------------------------
+
+*) Changed license key secret key
+
+*) Service Manager signals server to update license count after an office is created,
+   deleted, or modified (user enabled)
+
+*) modified license logic to count only unique, enabled users across offices
+
+*) Updated copyrights to 2006.
+
+*) Added check for minimum peer client version (the server's minimum client version is
+   assumed to be the minimum peer client version.  This check prevents newer client with
+   advanced front-end schema from connecting to and modifying office in use by older
+   clients.
+
+*) Added customizable and optional Login Warning
+
+*) fixed bug: user directory context menu item "New Chat" was always disabled
+
+*) fixed text in the welcome document and message that said that Managers and Authors
+   couldn't View a document (i.e., they could only edit)
+
+------------------------------------------------------------------------------------------
+Build 3.0.317 - September 29, 2004
+------------------------------------------------------------------------------------------
+
+*) using newest FIPS-candidate KCCE version 2.0.0.0
+
+*) Added the originating office name to the default Email Notification message. (So that
+   the recipient knows which office to check.)
+
+*) Fixed bug: Fatal error would occur if user attempted to clear the "Open safe extensions
+   only" checkbox on the "Extensions" tab of the options dialog.
+
+*) Fixed bug: Copying a folder was not working correctly.
+
+*) Added the text "(read-only)" to the "show selected shares only" checkbox on the sharing
+   dialogs.
+
+*) Fixed bug: If the message or chat windows failed to load (e.g., due to resource
+   exhaustion), there would incorrectly be an attempt to free the window object; this
+   would result in an access violation.
+
+*) Fixed bug: Account Recovery notification message had coordinating SO and target user
+   names reversed.
+
+------------------------------------------------------------------------------------------
+Build 3.0.316 - May 12, 2004
+------------------------------------------------------------------------------------------
+
+*) using new KCCE version 2.0.0.0
+
+*) Updated copyright in Service and Service Manager to 2004.
+
+*) Removed extra "the" from text in Service Manager Service tab.
+
+*) removed non-ASCII quote characters from license agreement text
+
+------------------------------------------------------------------------------------------
+Build 3.0.315 - May 10, 2004
+------------------------------------------------------------------------------------------
+
+*) updated README.txt and license agreement text
+
+*) using new KCCE version 1.0.7.0
+
+*) fixed bug: account recovery information was not sent to all users, so users could not
+   be successfully promoted to SO, and users could not inspect the agents for peers
+
+*) fixed bug: there is no longer an attempt made to send receipt messages to disabled
+   or insufficient-keys users
+
+*) changed the wording of the key recovery completion message
+
+*) fixed bug: message main frame accelerators where broken; the resulted in not being able
+   to send using hotkeys and pasting not removing text formatting
+
+*) modified the text of the account recovery and password reset readme warnings
+
+*) fixed grammatical error in warn_account_recovery.rtf
+
+*) fixed bug: account recovery dialog OK button remained (incorrectly) disabled when
+   number of default agents equaled the total required number of agents
+
+*) fixed bug: fatal error would occur when attempting to detect-new-work-file import for
+   file in work root directory
+
+*) Help\User's Guide now launches
+   http://www.kastenchase.com/CipherShare/OnlineDocuments/CipherShareUsersGuide-3.0.pdf
+
+*) fixed bug: recipients would appear multiple times on an email notification if the
+   sender went back and forth in the wizard multiple times
+
+*) fixed bug: if large fonts were used, collapsible/expandable dialogs (connect, search)
+   would not display properly
+
+*) fixed bug: Export All to Office menu item was always disabled
+
+*) updated welcome document and message to reflect changes in 3.0 (mainly menu layout)
+
+*) receipt requests are now removed from version metadata during inter-office copy (there
+   were too many problems associated with them)
+
+*) copy command no longer shows the import warning; the title bar of the wizard launched
+   by the copy command is now correct; wizard no longer shows the secure delete checkbox;
+   secure deleting is done as the copy import proceeds, instead of at application shutdown
+   time
+
+*) fixed bug: if a share group with a user that did not exist in the current office was
+   imported, an application crash would occur
+
+*) fixed bug: if user put document to disk for viewing (read-only), modified the file, and
+   then locked the document, a fatal error would occur
+
+*) fixed bug: server-side object delta construction during synchronization was broken
+   (version objects assembled in non-sorted order) which fatalled the server
+
+*) fixed bug: security officers would lose user password reset information if someone
+   signed that user's keys while the SO was online
+
+*) document and message searches now display line in log pane showing how many objects
+   were skipped if the search was stopped early; document search now displays line in log
+   pane showing how many objects were skipped due to non-downloaded content
+
+*) document and message searches now iterates in reverse object ID order (generally making
+   newer objects get hit first)
+
+*) changed Total Size column in DocList to display total datastream size only
+
+*) toolbar search button now enabled when user directory is selected (jumps to doc search)
+
+*) if a document or message search is stopped, it will now show the results gathered to
+   that point, instead of showing nothing
+
+*) fixed bug: in connect dialog, proxy settings would not become editable when proxy type
+   was selected
+
+*) Help/User's Guide menu item now launches version 3's guide instead of version 2.1's
+
+*) fixed bug: clicking "no" after getting import duplicate prompt (with dup in deleted
+   documents filter) would cause fatal error
+
+------------------------------------------------------------------------------------------
+Build 3.0.314 - March 9, 2004
+------------------------------------------------------------------------------------------
+
+*) fixed bug: attempting to coordinate account recovery caused a fatal error
+
+------------------------------------------------------------------------------------------
+Build 3.0.313 - March 3, 2004
+------------------------------------------------------------------------------------------
+
+*) fixed bug: putting illegal characters in the username or office name fields of the
+   connect dialog will no longer cause a fatal error
+
+*) using '.' in the database path (in the connect dialog) now works better (although not
+   perfectly) -- it translates to a path relative to the application executable location
+
+*) fixed bug: acting username was not recorded in deleted_object
+
+------------------------------------------------------------------------------------------
+Build 3.0.312 - February 26, 2004
+------------------------------------------------------------------------------------------
+
+*) fixed bug: document and message search commands were sometimes incorrectly disabled
+
+*) fixed bug: Empty Deleted Filter command for messages is now disabled if there are no
+   items in the Deleted Messages filter
+
+*) a message box is now shown when a user attempts to check in, undo check out, or
+   override check out on a folder that has no documents for which that action can be
+   performed (instead of failing silently)
+
+*) fixed bug: security policy account recovery edit spin controls were too narrow to
+   display three digits
+
+*) on document right click menus, it now says "Restore Deleted Document/Message"
+   (respectively) instead of "Restore Deleted Item"
+
+*) on message menu, "Empty Deleted Folder" changed to "Empty Deleted Filter"
+
+*) fixed bug: if a user de-enrolled from account recovery while another user was in the
+   participate or recover wizard, the other user or the server would fatal
+
+*) fixed bug: attempting to import an empty directory would cause a fatal error
+
+------------------------------------------------------------------------------------------
+Build 3.0.311 - February 22, 2004
+------------------------------------------------------------------------------------------
+
+*) fixed bug: access violation would sometimes occur at the end of the connect sequence
+   (this occurred often on Win98 but not WinXP or Win2K)
+
+------------------------------------------------------------------------------------------
+Build 3.0.310 - February 20, 2004
+------------------------------------------------------------------------------------------
+
+*) fixed bug in server crypto manager pool: insufficient KCCE key slots led to failure
+   of clients to connect to server every few attempts
+
+*) fixed bug: it was not possible to generate new keys in the Manage Keys dialog
+
+------------------------------------------------------------------------------------------
+Build 3.0.309 - February 19, 2004
+------------------------------------------------------------------------------------------
+
+*) fixed bug in ProtectedBuffer default xor-key obfuscation mode which caused various
+   fatals in Windows 98
+
+*) added block size check to wrap_package function
+
+*) fixed bug: if a user's information was changed by another user while that user was in
+   the initial user security wizard, the following update would fail and the user would be
+   in an unstable state (logged in, but with no keys)
+
+------------------------------------------------------------------------------------------
+Build 3.0.308 - February 11, 2004
+------------------------------------------------------------------------------------------
+
+*) fixed bug: client could crash server with malformed challenge (in session startup
+   protocol)
+
+*) account recovery enrolment dialog now prompts when user attempts to cancel after
+   modifying
+
+*) added text to empty help files indicating what they are
+
+*) transitive trust option is now available when signing any admin's key
+
+------------------------------------------------------------------------------------------
+Build 3.0.307 - February 4, 2004
+------------------------------------------------------------------------------------------
+
+*) welcome document now skipped in inter-office copy
+
+*) fixed bug: inter-office copy would fatal if a document had an incomplete version
+
+*) added copy command icon
+
+*) fixed bug: inter-office copy could fatal on documents with rolled-back versions
+
+*) work offline option no longer sticks
+
+*) made document and folder context menus layout more consistent with new document menu
+   layout
+
+------------------------------------------------------------------------------------------
+Build 3.0.306 - January 31, 2004
+------------------------------------------------------------------------------------------
+
+*) added additional client- and server-side internal share list checks
+
+*) fixed bug: inter-office export share lists became corrupted in every case except where
+   all documents had the exact same shares
+
+*) fixed bug: when a new folder was added to a leaf folder, the '+' would appear beside
+   the parent folder until the control was redrawn
+
+*) fixed bug: when everything in the selected folder was deleted (so that the folder
+   itself was removed), it would result in no filter being selected (which is a bad state)
+
+------------------------------------------------------------------------------------------
+Build 3.0.305 - January 20, 2004
+------------------------------------------------------------------------------------------
+
+*) changed embedded license key
+
+*) disabled force main frame to foreground for lockout dialog
+
+*) 64-bit datastore
+
+*) added Print command for messages -- launches message archive to facilitate printing
+   (also changed format of Archive file)
+
+*) directory structure now wiped when Import Directory secure delete option is selected
+
+*) fixed key recovery bugs:
+   - online target user lost keys when recovery key material disclosed
+   - passive online users lost key recovery info for target user after a disclosure
+   - target user client fatals on recovery (not a perfect fix, but better than before)
+
+*) all Help buttons now launch correct help links
+
+*) reorganized client resource.h
+
+*) time range for previous password checks
+
+*) fixed bug: key expiry month calculation would always round down to start of month
+
+*) added Search command to toolbar and menus (jumps to search filter)
+
+*) Restore Deleted Item command now uses separate command IDs for messages and documents
+   (to avoid confusing menu item enabling)
+
+*) added Encryption Key Recovery tab to key fingerprint dialog; renamed Public Signing
+   Key tab
+
+*) increased known value and previous password minimum substring length to 4
+
+*) email notification now uses a wizard rather than a dialog; also a checkbox has been
+   added to message page that allows the user to easily include/exclude names and folders
+   of the documents or subjects of the messages (i.e., the sensitive information)
+
+*) added mask/unmask button to all password reset Q&A dialogs (default to unmask)
+
+*) new object synchronization protocol
+
+*) KCCE.DLL version resource is now correct (shows 1.0.5.0 instead of 1.0.3.0)
+
+*) Verify buttons in audit dialog are now only enabled if item is selected in
+   corresponding list
+
+*) fixed bug: Key Fingerprint dialog Trust tab wasn't behaving correctly (old keys
+   incorrectly showed trust path; lower list wouldn't launch dialog for correct key index)
+
+*) Cut, Copy, Paste added to context menu of secure rich edit control (messages, chat)
+
+*) totally reorganized documents menu; some changes to other menus
+
+*) email notification is now a wizard instead of a dialog
+
+*) added ability to archive only selected messages
+
+*) fixed bug: different users using the same instance of the client application (serially)
+   would have problems with the initial filter display
+
+*) fixed bug: new user would be prompted to resume upload immediately after first login
+   (and fatal would occur if "No" was selected")
+
+*) server crypto manager pool
+
+*) extended some copyright dates to 2004
+
+------------------------------------------------------------------------------------------
+Build 3.0.304 - December 16, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: fatal could occur if new user added during inter-office copy
+
+*) fixed bug: if key recovery target user (or user with expired keys or password, etc.)
+   was uploading documents (or downloading, copying, composing messages, etc.) at the end
+   of the session before the recovery took place, he would receive a resume prompt at the
+   before getting the user security wizard; a fatal would result
+
+*) fixed bug: default account recovery agents weren't being used in account recovery
+   enrollment dialog
+
+*) no longer format sDisplayFlagNote for document tooltips
+
+*) changed how ServerRequestResponseHelper refreshes lists and filters in response
+   to various events
+
+*) fixed bug: a fatal error would occur if a document was created in the "Users" directory
+   (i.e., the root of the "Users\username's documents" default folder) and then deleted or
+   or removed from that folder
+
+*) added root private data, local database, and cached signature verification symmetric
+   keys
+
+*) fixed bug: when closing the app while connected, detect-new-work-files and locked
+   document checks not done
+
+*) fixed datastore freespace merging for overwritten objects
+
+*) changed Users in Document Folder function no users prompt text
+
+*) on demand and cached digital signature verifications
+
+*) changes to server log:
+   - manage users stats now indicates total number of users, not requests
+   - new readable stats summary with "0" activities omitted
+
+*) fixed bug: sometimes license code was cut off in Service Manager about tab
+
+*) fatal on datastore record number overflow
+
+*) database index optimizations
+
+*) new folder placeholder document now called "foldername Folder.txt" instead of "About
+   this folder.txt"
+
+*) binary search functions find first match out of all duplicate values (in index order)
+
+*) database re-index button on Service Manager
+
+*) FolderTreeNodeData::Find binary search
+
+*) 3.0 and 2.1 servers can run on the same machine
+
+*) fixed bug: wrong prompt and incorrect behaviour when trying to close app during initial
+   connect sequence
+
+*) fixed bug: wrong prompt was given when closing app while uploading/downloading document
+
+*) server keep alive timeout is now applied one message earlier in protocol
+
+*) added cached database indexes
+
+*) fixed bug: migrated documents no longer auto-synch
+
+*) security officer email address field added to new office dialog in service manager
+
+*) remembered password is now cleared then remember-password checkbox is cleared (whether
+   manually or when the user changes something in the connect dialog)
+
+*) password reset enrollment dialog is now shown over manage keys dialog after user
+   chooses to generate new keys; keys aren't generated if user cancels enrollment
+
+*) fixed bug: if user did not have Windows' administrator privileges, NTFS compressed,
+   encrypted, or sparse files would not be deleted properly and no helpful error would
+   be given
+
+*) when the user attempts to connect, a check is now made to see if the database path is
+   NTFS compressed and the user is unable to secure delete such files -- if so, a warning
+   and prompt are given
+
+*) fixed bug: uploading files were not secured or wiped
+
+*) fixed bug: password security policy dialog stated that pattern matching included
+   'qwerty' as a pattern
+
+*) changed the default document folder from "username's documents" to
+   "Users\username's documents"; this helps reduce folder clutter
+
+*) added export/import share groups
+
+*) using KCCE 1.0.0.5
+
+*) modified ciphershare_crypto_manager::make_pseudorandom_bytes to avoid
+   K_RNG_CONDITIONAL_TEST_FAILED problem
+
+*) debufferize_index_values optimization (update: removed this optimization)
+
+*) added absolute values to auto-compaction threshold check
+
+*) added 2GB fatal check to ciphershare_datastore::write_record
+
+*) detect-new-documents and copy-documents command now use iterated (serial) imports
+   instead of parallel imports; this helps avoid key slot exhaustion
+
+*) fixed bug: multi-document archive and export (including email and copy commands) would
+   fail if there was a undownloaded document in the job
+
+*) fixed bug: during import of multiple small documents, if disconnect during and resumed
+   import, a file could be skipped
+
+*) fixed bug: in detect-new-files import wizard, it was possible to make new folders
+   (albeit with no actual effect)
+
+*) version reconstruction delta sequences
+
+*) multi-version download transactions
+
+*) fixed bug: clicking the help button in the options or office options wizards would not
+   launch help but would set the wizard as modified
+
+*) fixed bug: help would not launch for document or message search
+
+*) compare changes command no longer marks document as read or prompts to send a receipt
+
+*) fixed bug: a generic error would be given when an attempt was made to send a receipt to
+   a disabled or insufficient-keys (i.e., post-key-recovery) user
+
+*) fixed bug: Export to Office would share documents with disabled users in target office
+
+*) added office option to enable/disable skipping of secure delete and local state store
+
+------------------------------------------------------------------------------------------
+Build 3.0.303 - November 10, 2003
+------------------------------------------------------------------------------------------
+
+*) migration (enhanced Export-to-Office command and User Manager Export/Import)
+
+*) fixed bug: deleting a note or task would not mark the them as unread for other users
+
+*) added Enable User command to Service Manager
+
+*) added compaction stats to log files
+
+*) share groups and office data digital signatures no longer fatal if signer disabled
+
+*) ExportOverwriteConfirmDialog now uses proper ellipsis logic when displaying path
+
+*) added help buttons to many dialogs
+
+------------------------------------------------------------------------------------------
+Build 3.0.302 - November 4, 2003
+------------------------------------------------------------------------------------------
+
+*) Password Policy settings changed
+   - history is part of snapshot
+   - history uses substrings and can be bi-directional
+   - minimum lengths replaced with quality checks
+   - additional descriptive text
+
+*) Password Reset material is now distributed to untrusted SO's
+
+*) Password Reset tests for questions or answers containing other answers, questions,
+   or the user's password now are all case insensitive and substring
+
+*) reorganized database object schemas to facilitate partial deserialization for indexing
+
+*) fixed bug: New Folder command wasn't working
+
+*) Service registry key changed from "Kasten Chase Applied Research" to "Kasten Chase"
+
+*) fixed bug: working with undownloaded docs would sometimes fail: work with a set of
+   documents, and last one in set is already downloaded
+
+*) when the auto-download option is changed, the balloon indicating that the user must
+   reconnect in order to have it take effect is no longer shown
+
+*) added wait cursor to CEmailNotificationDlg::SendMIME and CCentralInterface::SendMIME
+
+*) fixed bug: existing selection would remain when new message automatically sent and
+   selected after account recovery
+
+*) added tooltips for Password Reset question combo boxes
+
+*) added two more default suggested questions for Password Reset
+
+*) added office option to enable/disabled Export to Office command
+
+*) MoveAllFiles moves files recursively rather than moving directories
+
+*) increased client KCCE parameters (# keys, # encryption contexts) to 1000
+
+*) fixed bug: size would not display correctly in "Download and X" dialog if the size
+   was less than 1024 bytes
+
+*) fixed bug: Back button on AccountRecoveryCoordinatorPageRecover went to request page
+
+*) added LVS_EX_INFOTIP to all list controls
+
+*) added username to key recovery wizard final pages, and changed password controls
+   to static texts
+
+*) disabled Back button in PasswordResetCoordinatorPageQuestions
+
+*) added more text to Key Recovery Completion Notification message
+
+*) changed spelling: behaviour --> behavior
+
+*) fixed potential bug in manage_master_users only-global-admin check
+
+*) implemented Trust Path on Fingerprint dialog
+
+*) added Connect Keep Alive Timeout client setting
+
+*) Password Reset answers now encrypted with unrecoverable key
+
+*) fixed bug: fatal would occur if user attempted to export-to-office an undownloaded doc
+
+*) changed title bar of user details dialog to say User Details instead of User Manager
+
+*) fixed bug: user manager caused key recovery data to be cleared
+
+*) in the key recovery dialogs/wizards, replaced many of the user lists with share trees
+
+*) changed Account Recovery message and warning to indicate that enrollment may be
+   deferred
+
+*) removed word "Signature" from Fingerprint dialog titlebar
+
+*) enabled Fingerprint buttons on Fingerprint Trust tab
+
+*) fixed bug: Fingerprint Trust tab sometimes showed trusted keys as untrusted
+
+*) get_user_info results are sorted by username
+
+*) using KCCE 1.0.0.4
+
+*) fixed bug: fatal in password reset enrollment when list of suggested questions empty
+
+*) fixed bug: When the user would click on his own name in the create/import wizard (which
+   doesn't allow him to clear the checkmark), the wait cursor wouldn't go away until the
+   mouse button was moved
+
+*) fixed bug: if a dialog was up in the main window, and the spellchecker was run in
+   either a chat window or a message window, the wait cursor wouldn't be cleared until the
+   mouse was moved
+
+*) fixed coordinator-is-agent problem
+
+*) changed password dictionary check behaviour:
+    - added office option for allow phrases of 3 or more words
+    - password is now broken down into component words (delimited by non-alpha characters)
+    - if phrases are allowed, no checking is done if there are more than 3 words
+    - each word of length 3 or greater is checked for an exact match in the dictionary
+
+*) fixed bug: password dictionary check was not case-insensitive
+
+*) implemented disallow previous passwords feature
+
+*) the user's last viewed filter for each object type (documents, messages) is no longer
+   stored in the registry; this eliminates the possibility of information leakage about
+   folder names
+
+*) added check in CCipherListView::OnToolTipNeedText which may fix fatal:
+   File: CipherListCtrl.cpp
+   Function: CCipherListCtrl::GetRowBold
+   Line: 580
+   Error Code: 123
+   CipherShare 2.1 Build 240
+
+------------------------------------------------------------------------------------------
+Build 3.0.301 - October 14, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: audit list signature check fatals due to invalid indexes
+
+*) username, etc. substring check for passwords is not longer parameterized -- it is now
+   now fixed at 3
+
+*) updated warning texts (password, account recovery, password reset, key recovery,
+   account recovery threshold)
+
+*) key recovery material is not thrown away until user generates new keys (specifically,
+   it's retained after a key is recovered, allowing a second recovery if the temporary
+   password is somehow lost)
+
+*) added account recovery threshold warning
+
+*) old password prompt for change password is now a separate pre-dialog check; it does not
+   appear when change password is triggered, only when it's a command
+
+*) fixed bug: key generation warning appeared after key recovery
+
+*) fixed bug: key recovery warning (disclosure threshold exceeded) only appeared when
+   user record synched; now appears at start of every session
+
+*) implemented account recovery
+
+*) key recovery list ctrls are sorted
+
+*) changed the wording of the initial connect messages from "Retrieving xxx" to
+   "Synchronizing xxx"
+
+*) in the UI, in reference to document content, changed "Synchronize" to "Download" and
+   "Desynchronize" to "Remove Local Copy"
+
+*) removed all message menu items for Synchronize and Desynchronize (they were never
+   enabled anyway)
+
+*) changed password dictionary check behaviour:
+     - password has all leading and trailing non-letters removed before checking
+     - if stripped password is of length at least 3, it is checked for an exact match
+
+*) in user security wizard, hitting Enter now triggers the read me pop-up on the password
+   page and the password reset enrollment page (if the read me hasn't already been viewed)
+
+*) welcome document and message are now customizable
+
+*) customization of remember password and unsafe path warnings is no longer allowed (it
+   never did do anything)
+
+*) fixed auto upgrade bug (invalid version numbers when protocol different) and added
+   current client protocol to dialog boxes
+
+*) added password requirements list to change password dialog and password page of user
+   security wizard; also removed all password quality progress controls
+
+*) moved key recovery and generation warnings to before login time checks
+
+*) fixed bug: size combo in document search was editable
+
+*) fixed bug: if a session was ended while downloading a document and at the start of the
+   next session the user chose not to resume the download, the Synchronize command would
+   be incorrectly disabled
+
+*) added minimize button to lockout dialog
+
+*) implemented Password Reset key recovery
+
+*) added list double click handling to some key recovery dialogs
+
+*) set focus to first combo after Read Me on Password Reset page in User Security Wizard
+   also, disabled Next until Read Me clicked
+
+*) added some wait cursors to some security dialogs
+
+*) not longer get full share list (and check signature) when fetching object info
+   for populating the document list, etc.
+
+*) fixed bug: password validity checking for minimum character counts wasn't counting
+   repeated characters
+
+*) fixed bug: fatal could occur if user tried to disconnect during transaction and then
+   got disconnected from server before clicking "Yes"
+
+*) chat and message windows are now prevented from being zero size or starting off the
+   screen
+
+*) Password Reset combo boxes are now loaded with suggested question (in random order)
+
+*) added Password Reset suggested questions customization to office options wizard
+
+*) added "My Fingerprint" comment and button to key signing dialog
+
+*) made all displayed key numbers start from 1 instead of 0
+   changed Manage Keys column title from Key Set Number to Key Number
+   changed Fingerprint/Trust column title from Key Index to Key Number
+
+*) added flags to ProtectedBuffer to prevent redundant API queries
+
+*) enrollment/expiry dialog popup message boxes appear before dialogs, not on top of them
+
+*) changed root registry key and default data folder name
+
+*) changed all share list dialogs: "Show all users" checkbox is now a combo-box; new
+   combo-box which allows switching between showing all users and showing only checked-off
+   users
+
+*) fixed bug: share tree did not resize properly in on-demand key signing dialog
+
+*) fixed bug: changing the share list of a document encrypted with an old key set fataled
+
+*) added FATAL_APPLICATION_STATE1 comments to some datastore fatal errors
+
+*) new password confirm is now checked before password policy (user security wizard and
+   change password dialog)
+
+*) password reset questions and answers (normalized) are now checked for the presence of
+   the user's (normalized) password
+
+*) fixed bug: passphrase substring check was always bi-directional, regardless of the
+   bi-directional setting
+
+*) fixed bug: crash when click on User Status in status bar
+
+*) force password upgrade flag wasn't sticking in office options dialog
+
+*) reduced password hash time to 0.5 seconds from 1.0 seconds
+
+*) Password Reset: an answer can no longer be the same as its corresponding question
+
+------------------------------------------------------------------------------------------
+Build 300 - September 22, 2003
+------------------------------------------------------------------------------------------
+
+*) added key recovery
+
+*) switched to KCCE cryptographic functions
+
+*) fixed bug: crash on close main frame in work offline mode
+
+*) fixed spelling errors: "you are current in offline mode..."
+
+*) fixed bug: document double click prompt behaved incorrectly in work offline mode
+
+*) fixed bug: crash if documents pre-exist in work folder and new user cancels initial
+   login wizard
+
+*) read only share list dialog only displays selected users, not all users
+
+*) added download size to Download& dialog
+
+*) changed auto synch from auto synching on login to auto synching on Download& dialog
+
+*) fixed bug: incorrect "manages" logic; example:
+   user12 is in section9\subsection10
+   user2 is in section1\subsection10, and has admin flag
+   get_manages says that user2 manages user12
+
+*) added details to modify share list audit
+
+*) fixed spelling mistake in share tree: "Permisions"
+
+*) fixed bug: read-only obfuscated edits were not read-only -- this only affected the
+   password displayed in the new office information dialog in the Service Manager (and was
+   strictly a visual issue)
+
+*) removed Document Tools menu
+
+*) added audit digital signatures
+
+*) fixed bug: users could be removed from the on-demand key-signing dialog even in modes
+   when it shouldn't be possible; this could lead to a fatal if all chat participants
+   were removed in the dialog; it could also cause unexpected behaviour when sending
+   receipt messages
+
+*) changed Share Groups layout in sharing dialog
+
+*) added ability to applied unified share list based on documents in a folder to another
+   document in that folder (via both create wizard and sharing dialog)
+
+*) fixed bug: memory leak when modifying share groups
+
+*) added document Copy command
+
+*) no longer allocate null terminator in ObfuscatedString
+
+*) using CryptProtectMemory API to secure long term secrets in memory
+
+*) fixed bug: checksum ("Detecting Changes") dialog would sometimes show up when it
+   shouldn't (when obtaining a lock for something like sharing or versions while the
+   document is on disk for working)
+
+*) fixed bug: memory leak in ObfuscatedString::GetClearString (no confirmed sightings in
+   the wild, but could occur when new user email sent to multiple new users)
+
+*) added a second filter combo to tasks for 'complete' and 'incomplete' tasks
+
+*) hid streaming settings
+
+*) enforced minimum schema version
+
+*) moved ISAAC PRNG to secure file wipe code
+
+*) fixed bug: FATALs after CentralInterface or ciphershare_client were deleted would
+   simply crash the application
+
+*) added global office security policies
+
+*) switched to Blowfish encryption for license code
+
+*) switched to KCCE transport encryption and authentication
+
+*) simplified FATAL macros
+
+*) added text to the Settings tab and the Set License popup dialog in the Service Manager
+   "The service must be stopped and restarted for changes to these settings to take
+   effect"
+
+*) removed the PSP_HIDEHEADER from all property sheets, because it didn't meet the minimum
+   OS environment requirements (5.80 instead of 4.71)
+
+------------------------------------------------------------------------------------------
+Build 240 - July 8, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: at-least-one-manager constraint wasn't enforced in share tree when user is
+   always manager, but not on sharelist for all documents
+
+*) added prompt option for document double-click behaviour
+
+*) fixed bug: when in lockout and the session is disconnected because the user logged in
+   at another computer, the locked out instance terminates instead of being in a state
+   where all buttons (including Connect) are disabled
+
+*) added information about locked documents to the Lockout-Quit prompt
+
+*) added cancel button to auto-work option selection dialog
+
+*) fixed bug: archive and send email notification now work when folder is selected
+
+*) inter-office export for folders now prompts the user for recursive behaviour
+
+*) added following commands to folder right-click menu: mark as read, flag, desynchronize,
+   export, export to office, archive, email, email notification
+
+*) removed "Resume Check-in" command from folder right-click menu -- command doesn't exist
+
+*) added ability to change user status by clicking on appropriate area on status bar
+
+*) added text to import and create duplicate prompts to indicate if a document is marked
+   as deleted
+
+*) added "only me" and "no user" to the username document search options
+
+*) fixed bug: if the only document in a user's default folder was deleted while the user
+   was offline, the folder would not appear the next time the user logged in
+
+*) added explicit filter for keyboard and mouse notifications to lockout handler
+
+*) Explore command now opens Windows Explorer with the folders pane showing
+
+*) changed URL on IDD_NEW_PASSWORD_PAGE_WELCOME from www.ciphershare.com to
+   www.KastenChase.com
+
+*) fixed bug: messages in archive always appeared to be from user who created the archive
+
+*) fixed bug: download object chunk count stat wasn't tracked properly
+
+------------------------------------------------------------------------------------------
+Build 239 - May 29, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: checkmark wouldn't appear beside user's status in menu after lockout cleared
+
+*) fixed bug: support email address link in About box now works
+
+------------------------------------------------------------------------------------------
+Build 238 - May 28, 2003
+------------------------------------------------------------------------------------------
+
+*) added support email hyperlink to About box
+
+*) changed support email to CipherShareSupport@kastenchase.com
+
+*) reduced folder name secure wipe passes to 3 from 32
+
+*) removed Gutmann secure file wipe procedure code and option
+
+*) updated license text in About box
+
+*) changed help menu command label from "User Manual" to "User's Guide"
+
+*) changed User Manual URL to:
+   www.kastenchase.com/CipherShare/OnlineDocuments/UsersGuide2.1.htm
+
+*) removed Quick Guide command
+
+------------------------------------------------------------------------------------------
+Build 237 - May 27, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: disallowing re-entry into PumpActionsHandler caused problems (e.g., chat
+   messages couldn't be sent while notes dialog that first required lock was showing)
+
+*) after dismissing a systray notification balloon, the user is forced to choose whether
+   to hide or continue displaying (without further prompts when dismissed) that type of
+   balloon
+
+*) fixed bug: all users on share list would receive message box notifications if a lock
+   on the document was overridden (instead of just the user who had had the lock)
+
+*) explicit online flag returned with ciphershare_user_activity
+
+*) fixed bug: import files not longer silently fails for files that can't be locked
+   exclusively (note that this is still broken for importing directories)
+
+*) fixed bug: when status window pane was shown after being hidden, it would start out at
+   zero size
+
+*) added Logging In user status
+
+*) updated CMemDC code
+
+*) changed spelling error ("our" -> "your") in warn_password.rtf
+
+------------------------------------------------------------------------------------------
+Build 236 - May 22, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: some Action chaining wouldn't work properly (like mark-as-read after a
+   download&view)
+
+*) fixed bug: non-serial socket message queue items pointed to by serial index, resulting
+   in fatal
+
+*) fixed dropped notifications to current user
+
+*) service manager checks module path for service executable instead of working folder
+
+*) all new icons and bitmaps
+
+------------------------------------------------------------------------------------------
+Build 235 - May 20, 2003
+------------------------------------------------------------------------------------------
+
+*) force reset local database for older builds
+
+*) fixed bug: cached Unsynchronized Documents filter (and synch/desynch enable status)
+   would be incorrect if only desynchs were done in a session and the session terminated
+   abnormally
+
+*) fixed bug: merge_local_objects fatals on merge change when no local object exists,
+   but this case can happen when synchronizing and another user does a lock/unshare
+
+*) fixed bug: making changes to documents from the search filter that would change
+   membership in other filters could lead to documents appearing in incorrect filters
+
+*) added mechanism to ensure that re-entry into PumpActionsHandler cannot happen
+
+*) fixed bug: on document View/Edit, if Work with Other Files was selected and the other
+   files were unsynchronized, document would not launch properly (and work-with prompt
+   would appear too many times)
+
+*) added prompts for Clear Work Files and Clear All Work Files
+
+------------------------------------------------------------------------------------------
+Build 234 - May 14, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: unread documents that have been marked as deleted no longer show up in
+   "Unread Documents" filter
+
+*) fixed bug: server sent modification notifications in non-timestamp order when
+   processing mixed-share list operations
+
+*) higher-colour icons now used in list and tree
+
+*) wait cursor now appears at beginning of filter change
+
+*) Service Manager now checks for invalid server MAC in license code when code is
+   entered and before attempting to start service
+
+*) added text to Service tab in Service Manager pointing users to CipherShareServerLog.txt
+
+*) fixed bug: flaw in synchronization algorithm resulted in clients fataling during
+   synchronization and subsequently have missing objects if another user performed a
+   modify operation on a shared object while the client was synchronizing; associated
+   with same fatal errors listed below
+
+*) fixed bug: last known object timestamp synchronization optimization in 227 resulted
+   in clients skipping some notification objects after synchronization; associated with
+   same fatal errors listed below
+
+*) fixed bug: fatal would occur if document imported via "Detect New Work Files" was
+   shared with another user
+
+*) fixed spelling of "occured" in fatal error message text
+
+*) corrected grammar errors in warning texts
+
+*) fixed bug: lockout tried to change user status to Away in work offline mode
+
+*) fixed bug: including version descriptions in search would result in fatal error
+
+*) compress path data stored in file iterator
+
+*) added folder information to document email notification
+
+*) document JumpToFolder command now also selects document in jumped-to folder
+
+*) UI command enable update now does not enter engine mutex (so UI more responsive while
+   engine processing data)
+
+*) fixed bug: client could fatal if disconnect attempted while disconnect in progress
+
+*) removed datastore transaction disk space pre-allocation
+
+*) fixed bug: failed to check for valid length in encrypted buffer before allocating
+   buffer, which could result in out of memory exception when input corrupt
+
+*) fixed bug: multiplexed socket message queue allowed messages to arrive out of
+   timestamp order; associated with following fatal errors:
+
+   Function: ciphershare_database::merge_local_object_private_data
+   Line: 5479
+
+   Function: ciphershare_database::merge_local_objects
+   Line: 3972
+
+   Function: ciphershare_database::merge_local_objects
+   Line: 4004
+
+   Function: DecryptBufferKeyWithObjectKey
+   Line: 3026
+
+
+*) fixed bug: key sharing code was ignoring last_known_user_timestamp and always using
+   latest public key for recipients
+
+*) removed one of the wait cursors that flashed during batch upload
+
+*) added check that "My Documents" system directory is retrieved properly (fixed potential
+   memory access violation bug)
+
+*) fixed key timestamp bugs: local timestamps were NO_TIMESTAMP due to copy problem, and
+   timestamp checking incorrectly allowed NO_TIMESTAMP values for local key timestamps
+
+------------------------------------------------------------------------------------------
+233 - May 5, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: true-unread document filter was not getting reset properly (resulting in
+   systray icon not disappearing)
+
+------------------------------------------------------------------------------------------
+232 - May 5, 2003
+------------------------------------------------------------------------------------------
+
+*) added more wait cursors to DocInterface commands
+
+*) chat log now always scrolls to bottom when updated
+
+*) fixed bug: fatal could occur on disconnect (only in Win98?) -- filter history now
+   reset in CentralInterface *after* m_bStarted set to false
+
+*) added hidden true-unread filter for documents -- hugely improves performance during
+   downloads (and other activities that trigger UpdateDocuments)
+
+------------------------------------------------------------------------------------------
+231 - May 4, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: fatal would occur on start up if any document filters were hidden
+
+*) fixed bug: crash could occur if deletes and imports were done with documents that had
+   the same folder name but with different case
+
+------------------------------------------------------------------------------------------
+230 - May 4, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: missing lvitem.mask = LVIF_IMAGE in CHeaderPane::UpdateUserStatus caused
+   random crash in Release mode when chat participant changed user status
+
+*) fixed bug: on-demand key signing before chat would cause fatal
+
+*) fixed bug: fatal would occur at login if unsynched documents were present and
+   auto-synch options flag turned on
+
+*) fixed bug: view and edit files were not being stored/deleted properly at end of session
+
+*) disabled View, Export, and Archive in versions dialog while document is downloading
+   (fixed bug: fatal would occur if user attempted one of those commands while downloading)
+
+------------------------------------------------------------------------------------------
+229 - May 2, 2003
+------------------------------------------------------------------------------------------
+
+*) about box text is wrapped
+
+*) system tray balloons no longer show up while client is locked out
+
+------------------------------------------------------------------------------------------
+228 - April 30, 2003
+------------------------------------------------------------------------------------------
+
+*) filter caching to increase startup speeds with a large number of documents or messages
+
+*) fixed bug: missing handler for
+   CIPHERSHARE_CLIENT_NOTIFICATION_UPLOAD_VERSION_CHUNK_PROGRESS, which could cause upload
+   progress meter to lag behind actual progress
+
+*) added user status
+
+*) fixed bug: export and export-to-office commands weren't working (were instead executing
+   jump-to-folder command)
+
+*) fixed bug: double click launch of share tree dialog would select user under mouse
+   cursor
+
+*) allow SO's to transitively trust sub-SO's
+
+*) list and tree imagelists now use same class (CipherShareImageList)
+
+*) '*' and '?' now treated as ' ' (space) in doc and msg search
+
+*) replaced PostMessage calls with ThrottlePostMessage
+
+*) removed "Repair" button from Service Manager
+
+*) object private data time is set and copied (old private data times will still be 0)
+
+------------------------------------------------------------------------------------------
+227 - April 23, 2003
+------------------------------------------------------------------------------------------
+
+*) removed prompts for mark-as-read commands (but not mark-all-as-read)
+
+*) admin can set download URL and comment in service manager
+
+*) added prompt to allow client to close immediately when WM_QUERYENDSESSION received
+
+*) added "Jump to Folder" (for documents) feature
+
+*) added right-click menu for tasks dialog; added items to notes dialog right-click menu
+
+*) clicking user online/disconnected balloon now changes filter to user directory
+
+*) in new task dialog, changed name of "Note" tab to "Details"
+
+*) balloon now doesn't disappear if mouse is over it
+
+*) fixed hand cursor in HyperLink and TaskbarNotifier for all platforms
+
+*) remove *'s (required field markers) from User Details dialog in read-only mode
+
+*) CipherListCtrl autopop time reduced to 20 seconds
+
+*) changed "CipherShare Desktop" to "CipherShare Office" and updated the icon
+
+*) in the tasks dialog, changed behaviour of "All tasks" for Readers and Authors from
+   "all tasks for me or created by me" to really showing all tasks
+
+*) last known object timestamp synchronization optimization
+
+*) chat session object, including digital signature for chat trust
+
+*) new format for version number in ciphershare_versions.h
+
+*) inter-office export now keeps base folder
+
+*) made it possible to skip unsynched docs in offline export
+
+*) in audit dialog, spelling of "properies" is fixed
+
+*) fixed bug: certain database functions failed to check return value of datastream
+   functions, resulting in, for example, the server returning all 0 chunks for objects
+   where the datastream file is actually missing
+
+*) fixed bug: datastore transaction expected file size check failed when resuming half
+   committed transactions
+
+*) fixed bug: crash could occur if disconnected while certain dialog boxes were showing
+   (new return value REGISTERED_POPUP_KILLED returned from RegisteredPopups when killed)
+
+*) changed the method for getting file type icons
+
+*) made secure delete animated icon pane on status bar wider and added descriptive text
+   (seems to fix bug drawing this icon on XP)
+
+*) changes to secure delete code, including: perform deletes after find file loops are
+   complete, retry if duplicate temporary .wipe file names, random names for name wiping,
+   revert to tighter error logging, including assuming enqueued files exist
+
+*) enabled BCMenu for ChatFrame
+
+*) log file is now opened earlier, in ClientApp
+
+*) open/create datastore now fatals on non ERROR_NOT_FOUND and ERROR_SHARING_VIOLATION
+   system errors
+
+*) fixed bug: create datastore didn't check for ERROR_SHARING_VIOLATION, and so it
+   fataled if user reset local for a database open in another session
+
+*) improved tab-key navigation and initial focus behaviour in main client window
+
+*) CipherListCtrl tooltips no longer shown when main window doesn't have focus
+
+*) custom dialogs now cause their parent frame window to jump to the foreground, instead
+   of always the main window
+
+*) fixed bug: focus no longer goes to tree or log view instead of document/message list
+
+*) fixed bug: chat wasn't doing key signing on-demand
+
+*) documents no longer immediately removed from unread filter when marked as read if user
+   is currently viewing that filter
+
+*) verify digital signature in share group confirm dialog
+
+*) display permission level in share group confirm dialog
+
+*) added ability to search by "any user" or "any other user"
+
+*) added unread sharelist functionality for documents
+
+*) client will allow user to assign transitive trust only through a Security Officer's key
+   (either root SO or SO of user's subsection or section).
+
+*) Service Manager allows admin to select rso's full name and description
+
+*) mark-as-read command will now also mark notes, tasks, and sharelists as read, in
+   addition to marking versions/content as read
+
+*) if document double-click default is "view" and document is locked, double-clicking
+   notes or tasks will now open them for editing
+
+*) fixed bug: duplicate object merge operations performed due to overlap of initial client
+   synchronization and enqueued create/modify notifications
+   related fatal errors:
+
+   File: ciphershare_database.cpp
+   Function: ciphershare_database::merge_local_objects
+   Line: 3856
+   Error: missing object
+
+   File: ciphershare_objects.cpp
+   Function: ciphershare_object::merge_change
+   Line: 7209
+   Error: duplicate version id
+
+*) removed '.' from version IDs in versions dialog
+
+*) fixed bug: missing optimistic lock logic for unshare operation
+
+*) added mutex to ciphershare_client::is_xxx functions
+
+*) fixed bug: on_client_disconnect cleared state before calling disconnect callback
+   related fatal errors:
+
+   File: ciphershare_client.cpp
+   Function: ciphershare_client::pop_request_data
+   Line: 1613
+
+   File: ciphershare_client.cpp
+   Function: ciphershare_client::pop_notification_data
+   Line: 1632
+
+*) fixed bug: ciphershare_client::is_authenticated logic error
+
+*) renamed admin to either Security Officer or system administrator
+
+*) fixed bug: a peer moving a work document, followed by the user re-working with the
+   document, would result in the doc not moving (and another copy being put in the new
+   location, if the document content had been changed)
+
+*) rebranding: new CipherShare Desktop tree view image
+
+*) fixed bug: "compare changes" using MS Word now works properly with Word XP
+
+*) save prompt no longer shown when trying to close MS Word "compare changes" document (and
+   compare file no longer set read-only)
+
+*) fixed bug: SetPasswordChar('*') has to be set explicitly for Windows XP
+
+*) fixed bug: -1 image list indexes caused crashes in flat header ctrl in Windows XP
+
+*) added system requirement checks to service, service manager, and license generator
+
+*) added "Global\" prefix to server status shared memory object names for Terminal Service
+   compatibility
+
+*) added Windows XP manifest for client and service manager
+
+*) added server licensing
+
+*) user can now add safe/trusted extensions on-the-fly
+
+*) double-clicking on a locally locked document will Edit, even if default is View;
+   double-clicking on Reader/remotely-locked document will View, even if default is Edit
+
+*) fixed bug: chat now adheres to spell-check option setting
+
+*) chat share tree now has current user in it, and current user's section is expanded
+
+*) fixed bug: unnecessary Invalid Database prompt in Service Manager Offices page
+
+*) fixed bug: hitting Cancel in Options dialog now prompts to abort changes (if changes
+   were made)
+
+*) fixed bug: toolbar view option in message frame window didn't stick
+
+*) replaced all AfxMessageBox calls in the message frame and chat frame with
+   CFrameWnd::MessageBox
+
+*) removed secure delete checkbox from (new) create wizard -- file is always deleted after
+   upload is complete
+
+*) added "Is Reader", "Is Author", and "Is Manager" search criteria
+
+*) main frame is now restored (if minimized) when lockout dialog comes up (or if any
+   other dialog comes up while main window is minimized)
+
+*) after undo-check-out of document with changed work file, the file is now put back to
+   disk after the unlock
+
+*) in the Connect dialog, the "*" next to Internet and Intranet is now updated on-the-fly
+
+*) fixed Connect Intranet label (172.16-31.x.x)
+
+*) added Edit My Details to System menu and removed Edit Details from User Directory menu
+
+*) added systray balloon dismiss button; changed options related to balloons (from on/off
+   to on/off/prompt-if-dismissed)
+
+*) fixed tab orders in Options dialog
+
+*) added flat splitter windows
+
+*) allow Authors to override their own locks
+
+*) fixed bug: if user connected while already online and enters wrong password, server
+   would mark as disconnected and this will mess up activity notifications, chats, etc.
+
+*) fixed bug: fatal crash when Profiles combo expanded, a character typed, and Enter
+   key clicked
+
+*) removed message attachments column, message compose attachments list and button, and
+   message read attachments button and list
+
+*) if a document currently on disk is marked as deleted, the associated file will be
+   removed from disk
+
+*) fixed bug: if one (or more) of the files is missing from disk in a multi-document
+   check-in, another of documents would be unnecessarily skipped (locked and on disk)
+
+*) fixed bug: if auto-work option was set to "auto-work with current folder (and
+   subfolders)", unsynched document selected to view, and unsynched documents in
+   the view-document's folder, the native app wouldn't launch
+
+*) fixed bug: note icons weren't being displayed properly
+
+*) fixed bug: "import directories recursively" checkbox now hidden in import wizard when
+   doing inter-office copy
+
+
+*) fixed bug: share group added to chat did not filter out offline users, resulting
+   in fatal error
+
+*) fixed bug: fatal would sometimes occur if user tried to connect while having work file
+   open in native application
+
+*) fixed bug: unexpected_disconnect flag was always false
+
+*) "access denied" is no longer considered an unexpected error in a can-open-exclusive
+   check and it no longer logged
+
+*) "SecureRemoveDirectory: MoveFile failed (5)" message no longer being logged
+
+*) fixed bug: systray icon was 32x32 icon auto-scaled down; now it's 16x16 icon
+
+*) chat changed to flash when a user leaves it
+
+*) default auto-work option changed to "none" from "prompt"
+
+*) fixed bug: if two documents with the same name were moved to the same folders in a
+   single "move" operation, a fatal would occur
+
+*) disabled web of trust diagrams
+
+*) fixed bug: added sort-on-the-fly flags to UserDirListView and BackupListView; now, for
+   example, User Directory will automatically resort itself if sorted by Online column and
+   users go online/offline
+
+*) changed welcome message subject and document name (removed 'WorkSafe')
+
+------------------------------------------------------------------------------------------
+226 - March 18, 2003
+------------------------------------------------------------------------------------------
+
+*) changed fatal error email to ciphershare-support@kastenchase.com
+
+*) re-disabled NTFS\ACL feature
+
+*) changed auto synch default to off
+
+*) fixed bug: inter-office copy would unnecessarily add user's default folder to new
+   document's folder(s) -- eg. desiredfolder\joe's documents\new.doc
+
+*) added reply-all as double-click option for messages (new option is not compatible with
+   older versions)
+
+------------------------------------------------------------------------------------------
+225 - March 12, 2003
+------------------------------------------------------------------------------------------
+
+*) changed default document right-click action to View
+
+*) integrated new Assurency SecureStore bitmaps and icon
+
+*) fixed bug: background request thread not terminated on failure to connect
+   related fatal error:
+
+   File: ciphershare_client.cpp
+   Function: ciphershare_client::start_background_requests
+   Line: 4519
+
+*) fixed bug: user timestamp index corrupted when user changes private data (options)
+   related fatal errors include:
+
+   File: ciphershare_objects.cpp
+   Function: ciphershare_user_info::lookup
+   Line: 1814
+
+   File: ciphershare_objects.cpp
+   Function: ciphershare_user::get_signing_key_pair
+   Line: 978
+   Error: invalid key index
+
+   File: ciphershare_database.cpp
+   Function: ciphershare_database::merge_local_objects
+   Line: 3907
+   Error: invalid signature
+
+*) fixed bug: invalid user index used in merge_local_user_key_signatures could cause crash
+
+*) fixed bug: incorrect file size fatal check in datastore compact
+
+------------------------------------------------------------------------------------------
+224 - March 5, 2003
+------------------------------------------------------------------------------------------
+
+*) welcome message subject changed from "Welcome to CipherShare WorkSafe." to
+   "Welcome to CipherShare WorkSafe"
+
+*) NTFS ACL permissions lockout re-enabled (temporary?)
+
+*) fixed the English in a couple of on-demand key signing message boxes to say "want to
+   remove" and "want to share" instead of "want remove" and "want share"
+
+*) fixed bug: if unexpectedly disconnected, and chat windows open, and "local state
+   storage failed" dialog displayed (documents open in Word, for example), then fatal
+   if attempt to close chat window
+
+*) engine notifications use callback instead of PostMessage
+
+*) added spell checking to chat compose window; includes new option (schema change)
+
+*) changed User Manager log file format to use the same field names as the Connect dialog
+
+*) added username and office name to Inactivity Lockout dialog box
+
+*) fixed bug: choosing to work with a document that already had a file on disk in its
+   location would result in the file being overwritten without a prompt
+
+*) fixed bug: sometimes read-only (view) work documents would get unnecessarily stored
+   at disconnect time, and when they got restored to disk at next connect, they would
+   be divorced from work status, so they would be detected as new docs at next disconnect.
+   This would occur when documents belonged in the same folder but had different cases;
+   for example: blah\x.txt and BLAH\y.txt would cause a problem (one of them would get
+   stored unnecessarily, etc.).
+
+------------------------------------------------------------------------------------------
+223 - February 13, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug: fatal when trying to synchronize document with version metadata
+   (description) modified by user other than the user who created that version
+   bug shows up as:
+   Log: ciphershare_object_version::verify_metadata_signature: invalid username
+   Fatal File: ...\ciphershare_database.cpp
+   Fatal Function: ciphershare_database::merge_local_objects
+   Fatal Line: 3907
+   Fatal Error: invalid signature
+
+*) added feature: Email document(s) as attachment(s), including a new security warning
+   (warning changes options schema)
+
+*) chat text limit increased from 512 characters to 65536 characters
+
+------------------------------------------------------------------------------------------
+222 - February 3, 2003
+------------------------------------------------------------------------------------------
+
+*) fixed bug that caused connection errors due to faulty DNS lookups
+
+*) disabled View, Export, and Archive in versions dialog while document is uploading
+   (fixed bug: fatal would occur if user attempted one of those commands while uploading)
+
+*) Message Archive function
+
+*) get_object_ids return value is sorted
+
+*) added .cs, .asp, .aspx, .asax, .config, .sql as recognized Compare Changes extensions
+
+*) server expires on specified (hard-coded) date
+
+*) CloseHandle(keep_alive) in socket event thread
+
+*) fixed bug: if a doc search term appeared in two different levels of folders for a doc
+   (and "Folder" was checked off in the search, and the search term didn't appear in the
+   name of the doc), the application would crash
+
+------------------------------------------------------------------------------------------
+221 - January 11, 2003
+------------------------------------------------------------------------------------------
+
+*) EditDocument no longer fatals if a document is unexpectedly not locked, since this can
+   happen in some rare cases
+
+*) fixed bug: inter-office copy crashed (Unhandled Exception) in target when user clicked
+   Finish in the import wizard
+
+*) complete wipe of data members in CipherShareDocument, CipherShareMessage, and related
+   classes
+
+*) replaced security related memset calls with WipeMemory
+
+*) fixed bug: times that were exactly midnight would show up blank
+
+------------------------------------------------------------------------------------------
+220 - December 16, 2002
+------------------------------------------------------------------------------------------
+
+*) fixed bug: pending uploads with large estimated memory footprints were sometimes
+   never promoted to active uploads, even if nothing else was in the active queue,
+   leading to hanging uploads
+
+*) "secure delete" is now an option in the new document wizard, instead of hidden and
+   forced to true
+
+*) inter-office import is no longer iterated
+
+*) inter-office import files and new files (from New menu command) are moved to appropriate
+   work directory before importing; this ensures that resume will work properly
+
+*) fixed bug: detect new work files wasn't properly setting first version description and
+   receipt desired
+
+*) updated about box copyrights and company name
+
+*) server listen on 443 default is off
+
+*) document creation balloons and status window messages contain document name
+
+*) fixed bug: turning off document modification balloons also turned of status window
+   messages
+
+*) new notification balloon (fixes focus problem)
+
+*) fixed bug: Skip secure local work files incorrectly reported that the action failed
+
+*) PumpActions made to return immediately (pumping now done via PostMessage); it is now
+   possible to send messages properly while a dialog-preceded-by-lock is up
+
+*) chat
+
+*) fixed bug: local options revert to default when logging into a new account; also,
+   local options not read from registry if default options object used
+
+*) server no longer writes last activity times to database during session
+
+*) changed all dialogs font to "MS Shell Dlg", "Use System Font" to True, and character
+   set to DEFAULT_CHARSET
+
+*) fixed bug: DCN notifications are now blocked while CentralInterface::Start is running
+
+*) message frame windows are blacked-out when session is locked out
+
+*) fixed green lock icon in Check In dialog
+
+*) server validation check for duplicates in share lists
+
+*) email for fatal errors
+
+*) Warnings re-enabled
+
+*) fixed bug: the mouse cursor could occasionally get trapped during column resizing
+
+------------------------------------------------------------------------------------------
+219 - November 25, 2002
+------------------------------------------------------------------------------------------
+
+*) secure inter-session work files in encrypted database stream
+
+*) fixed bug: also check ERROR_PATH_NOT_FOUND in some cases where ERROR_FILE_NOT_FOUND is
+   not sufficient by itself
+
+*) slightly more verbose tooltips for main toolbar commands
+
+*) local lock icon changed to yellow from green; remote lock icon changed from yellow
+   to grey; toolbar/menu icons changed also
+
+*) new icons for Connect, Disconnect, and Lockout
+
+*) command handler re-entrance check in main window prevents multiple windows messages
+   from triggering any OnCommand while another one is currently in progress
+
+*) dialog boxes automatically close if disconnected from server
+
+*) reduced chance that inactivity timeout and inter-office copy will pop up on top of
+   open dialog box
+
+*) changed temp view/compare file name to "filename (version N).ext"
+
+*) fixed bug: label-edit folder rename now works properly (If you changed X\Y to
+   X\Z in the tree, you'd end up with something like X\Y\Z in the move dialog)
+
+*) added dual server listen port (443)
+
+*) server logs specific errors when fail to start due to missing config setting
+
+*) fixed big: ~ciphershare_server called cleanup_shared_state after deleting mutex
+
+*) HTTP proxy support
+
+*) only one tray balloon is ever displayed; text for new balloon replaces old text
+   if new balloon is created while old balloon still exists
+
+*) added a match count line to the search dialogs
+
+*) fixed bug: BuildDirectoryStructure no longer fails when trying to build root
+
+*) fixed bug: IsRootDir didn't work at all
+
+*) fixed bug: choosing to not overwrite a file during a batch export would cause a fatal
+   in SendReceipts
+
+*) fixed bug: Import dialog "Secure delete original files(s)" failed silently on files in
+   a root (C:\) directory; Export multiple files to root directory failed to prompt on
+   overwrite condition -- both bugs due to some funny code in
+   CCentralInterface::FileExists which we commented out but which we are unsure if it was
+   supposed to be there for a reason.  Likely not.
+
+*) fixed bug: currently uploading and downloading documents are excluded from content
+   search
+
+*) fixed bug: cancelling in the following progress dialogs was not actually cancelling
+   (and potentially causing PostMessage overflows): DocSearch, Checksum, Reconstruction.
+
+*) fixed bug: marked-as-deleted documents no longer show up in "Unsynched Docs" and
+   "Transfer Docs" filters
+
+*) status messages (re-) added for check-ins
+
+*) renamed datastore files as follows to avoid false positive .COM virus detection by NAV:
+   .dat_transaction, .dat_commit_transaction, .dat_compact, .dat_commit_compact
+
+*) Error Log command is now enabled immediately if default connection profile log file
+   is available
+
+*) added New Folder command
+
+*) exposed Show Filter Count option and changed default to true
+
+*) fixed bug: version rollback while file on disk wasn't updating file
+
+*) message body text length strictly limited to 250,000 characters
+
+*) fixed memory leak: ServerRequestResponseHelper failed to delete request data when
+   IsDisconnected was true
+
+*) fixed bug: document content search failed to match some strings due to incorrect
+   handling of case insensitive searches in the Boyer-Moore lookup table
+
+*) fixed bug: document date search was always by "Created" time, even if "Last Modified"
+   was selected
+
+*) fixed security flaw: previously, commands could be activated during lockout by sending
+   specific windows messages (WM_COMMAND) to the main frame; now, CCentralInterface is
+   aware of the lockout state and disables all commands during lockout
+
+*) the default folder ("username's documents") is now never removed from the folder tree,
+   even if it's empty
+
+*) fixed bug: folders containing only marked-as-read documents no longer appear in folder
+   tree
+
+*) removed Synch and Delete from main toolbar; added Filter Back/Forward, Explore, Work,
+   and Reply All
+
+*) added version number and expected datastore file size to transaction file
+
+*) added "explore work files" command
+
+*) added filter "back" and "forward" commands
+
+*) server will force users to upgrade to 219
+
+*) fixed bug: disconnecting in the middle of an import, then choosing not to resume at the
+   start of the next session, then manually resuming would result in a fatal when the
+   import finished
+
+*) changed prompt wording for unshare vs. real-delete
+
+*) updated online help links: Sign Key, Untrusted Users, Export to Office, Move Documents,
+   Document Search, Message Search, and Check In Options
+
+*) there are now "Abort Changes All" and "Keep Changes All" options when attempting to
+   work with documents which have had their read-only flag overridden and have been changed
+
+*) replaced new_thread functions with background request queue (fixes bug whereby
+   new_thread functions called database functions after disconnect resulting in invalid
+   memory accesses)
+
+*) added "Compare Changes" command -- compares latest DB version of document with file
+   currently on disk
+
+*) view warning now shown for Compare command launched from versions dialog
+
+*) fixed server bug: unshare/reshare with a user caused synch problems
+
+*) datastore apply transaction function pre-allocates disk space.  this reduces the
+   chance that an out of disk space condition will result in a half-committed transaction.
+   note that datastore functions still fatal on file system errors
+
+*) database datastream file functions no longer fatal on file system errors
+
+*) no longer fatal when ProcessNextChunk fails.  handle situations such as media removed,
+   networked drive no longer available, or out of disk space.  log messages display system
+   error text in addition to GetLastError number
+
+*) document and message search string is now parsed into individual search terms
+   (separated by spaces, commas, or semi-colons) or literal strings (enclosed in quotes)
+
+*) the Work command now marks documents as read
+
+*) when a user replies to a message sent by that user, the user is no longer set as the
+   recipient
+
+*) changed Work command to Work with Latest Version, and added to main part of document
+   context menu
+
+*) removing a file from disk after detect-new-work-files import is now optional instead
+   of forced
+
+*) fixed bug: viewing (or read-only working) with a file, then other user changes its
+   name, then viewing it again no longer causes a problem
+
+*) added User Manual and Quick Guide help menu items
+
+*) fixed bug: search datastream crashed (memory access violation) when candidate file was
+   smaller than search target string
+
+*) server timeout value reported by client during login
+
+*) MoveFileEx replaced with custom function (was not supported on Win98)
+
+*) SecureRemoveDirectory no longer logs folder names
+
+*) fixed bug: "Download & Export" command for items in the list no longer crashes
+
+*) fixed bug: serialization didn't fatal when class_version was unknown (too high) in some
+   cases (dynamic_debufferize)
+
+*) added simple spell checker for messages
+
+*) added "Locked by" as a "User" search parameter for documents
+
+*) status view now uses horizontal scroll bar properly (no longer unnecessarily appears
+   when app first starts, and appears when needed to display long entries)
+
+*) added "Advanced>>" buttons to expand/collapse message and document search dialogs
+
+*) implemented Desynchronize command
+
+*) hacked a repair office button in Service Manager: only works with "worksafe" office;
+   removes all objects, private data, and deleted object records shared with or belonging
+   to "user2"; detects and purges all orphaned private data for all users
+
+*) fixed bug: there was a problem with the prompt that would appear if the user attempted
+   to view a read-only file that had been manually overwritten
+
+*) fixed bug: a manually overwritten read-only work file would not be put back to disk if
+   the user tried to work with it again and chose the "Abort Changes" option
+
+*) fixed bug: if the user tried to work with a manually overwritten read-only work file,
+   the "Abort/Keep Changes" prompt would always say that the version of the file was out
+   of date (regardless of whether it was or not)
+
+*) fixed server memory leak: deleted_object not deallocated in
+   ciphershare_database::fetched_changed_objects (part of the initial synch)
+
+*) fixed security flaw: file rename in SecureDeleteManager::EnqueueFile now maintains
+   length of file name
+
+*) fixed bug: trust calculation was not doing a proper breadth-first search, so some
+   Fully Trusted users showed up as Indirectly Trusted
+
+*) restored key navigation to tree (between sections)
+
+*) fixed bug: no longer any "continue batch upload" prompts don't actually do anything
+
+*) initial client timeout (when first connecting) is now 30 seconds, up from 15
+
+*) fixed bug: upload progress will not longer sometimes go backwards if filters are
+   changed during upload
+
+*) server handles dangling online users (when server fails to terminate properly, any
+   online users will not have a "logged off" flag/time set)
+
+*) hacked in windiff for .cpp, .h, etc.  windiff.exe must be in path.
+
+*) removed rollback message box warning in versions dialog
+
+*) added Remember Password option
+
+*) Work Offline connect option sticks
+
+*) installer no longer overwrites profiles
+
+*) the text in key fingerprint fields in dialogs can now be copied to clipboard to help
+   in verification process
+
+*) toolbar visibility in the message frame window now sticks
+
+*) fixed bug: using "Export to office" from the menu now works properly, previously
+   all files in current folder were exported, even if they were not selected
+
+*) ALT+S added as hotkey (accelerator) for message send; ESC added for message close
+
+*) fixed bug: resizing the status window and then resizing the main window now works as
+   expected
+
+*) fixed bug: "none" option for default new document folder now works
+
+------------------------------------------------------------------------------------------
+218 - October 16, 2002
+------------------------------------------------------------------------------------------
+
+*) added document content search
+
+*) updated document search
+
+*) compare two version of a Word document (doc/rtf/txt/html/wps)
+
+*) added message search
+
+*) added Flagged Messages filter
+
+------------------------------------------------------------------------------------------
+217 - October 2, 2002
+------------------------------------------------------------------------------------------
+
+*) hacked upload progress to max out at 99.9%
+
+*) fixed bug: backup node still appeared in tree
+
+------------------------------------------------------------------------------------------
+216 - October 2, 2002
+------------------------------------------------------------------------------------------
+
+*) backup labels and warnings removed again.
+
+*) fixed web of trust diagram fatal in key signing dialog: enabled user edges are
+   filtered out.
+
+*) fixed bug: datastore compacted too frequently
+
+*) upped sanity check in ciphershare_serializer to 8MB
+
+*) excluded freespace from CIPHERSHARE_DATASTORE_MAX_RECORD_DATA_SIZE sanity check in
+   datastore; moved sanity check to validation loop in apply_transaction
+
+*) added web of trust diagram to key signing on demand dialog
+
+*) Backup label reinstated
+
+*) security warnings reenabled by default
+
+------------------------------------------------------------------------------------------
+215 - September 26, 2002
+------------------------------------------------------------------------------------------
+
+*) Backup label temporarily removed from main menu and tree
+
+------------------------------------------------------------------------------------------
+214 - September 26, 2002
+------------------------------------------------------------------------------------------
+
+*) security warnings temporarily disabled by default
+
+*) fixed bug: invalid mutex permissions in read_shared_state caused service manager to
+   fail to read server state in Release mode
+
+*) fixed memory leak in Service Manager Status page
+
+------------------------------------------------------------------------------------------
+213 - September 26, 2002
+------------------------------------------------------------------------------------------
+
+*) added Synchronize to folder menu
+
+*) fixed bug: the Move command (and drag & drop) would fail silently for documents on
+   disk for viewing (not locked)
+
+*) upload/download progress bars display 100% without hiding.
+
+*) upload progress is now strictly % input processed, and will no longer run backwards
+
+*) fixed bug: unsharing self from a document while downloading that document would cause
+   a fatal (cause: unshare success handler failed to delete local document)
+
+*) selecting secure delete in the create wizard now prompts the user to confirm the
+   selection; and there is no longer a prompt after the files are imported and before
+   they're deleted
+
+*) inter-office export/import: ...
+
+*) Reply-All command now does not include current user in new recipient list
+
+*) fixed bug: in reply and forward message headers, the recipient list was given as
+   "fullname (fullname)" instead of "fullname (username)"
+
+*) fixed bug: fixed fatal that occurred during some upload resumes (when a one chunk
+   download was required)
+
+*) fixed bug: list ctrl focus/selection flicker problem
+
+*) fixed bug: click within list label edit behaves incorrectly
+
+*) drag and drop move tree-to-tree and list-to-tree; Move command replaces multi doc
+   properties
+
+*) service manager displays list of online users
+
+*) when a user selects a command that requires the document(s) to be downloaded, there is
+   now a prompt to have the command executed after the document is downloaded
+
+*) fixed bug: archive now works
+
+*) limited messages to 1,000,000 characters and capped message reply quote prefixes to
+   at most 5 prefixes per line.
+
+*) "username's documents" is no longer set as the default folder when creating or
+   importing a document; this is to avoid users not realizing where (in which folder) they
+   created their document
+
+*) re-enabled "don't show me this again" option for View warning
+
+*) support icons with index -1
+
+*) when a document is created or imported, it will be shown in the list (changing filters,
+   if necessary); for a batch import, only the first created document will trigger the
+   filter change
+
+------------------------------------------------------------------------------------------
+212
+------------------------------------------------------------------------------------------
+
+*) fixed bug: user manager set new passwords for existing users created previously
+   in session
+
+*) force minimum hash count for temporary passwords so fast admin machine won't cause
+   slow user machine to timeout on first connect (minimum is still large, 2^14, so a
+   timeout could still occur in theory)
+
+*) NOTE: DocState schema incompatible with 211 and 210
+
+*) batch downloads now happen serially, instead of in parallel
+
+*) fixed bug: improper user activity notification for unauthenticated users
+
+*) collapsible subsections in tree
+
+*) removed High Priority option GUI element from CreateWiz and CheckInOptions
+
+*) fixed bug: message recipient unsharing (deleting) message while sender online would
+   cause fatal error for sender
+
+*) removed upload processing thread; removed priority queues
+
+*) changed user view times (login/logout/activity) to hide date if same day, not if
+   within 24 hours.
+
+*) multiline tooltips
+
+*) new trust calculation with breadth first search and proper signature checks
+
+*) changed is_online condition from m_last_login_time > m_last_logout_time to
+   m_last_login_time >= m_last_logout_time which fixes at least one bug: remote disconnect
+   sometimes fails to show disconnector as online.
+
+------------------------------------------------------------------------------------------
+211
+------------------------------------------------------------------------------------------
+
+*) new import files and import directory processing logic
+
+*) server backup functionality removed
+
+*) new_thread_ functions now always create new thread, not only if >= 10 items
+
+------------------------------------------------------------------------------------------
+210
+------------------------------------------------------------------------------------------
+
+*) fixed bug: double-clicking send button in message window could cause fatal error
+
+*) BalloonHelp only uses WS_EX_LAYERED on _WIN32_WINNT >= 0x0500 platforms
+
+*) TrayBalloon only displays hand icon on WINVER > 0x500 platforms
+
+*) properly restricted Platform SDK and shell headers in stdafx.h as per
+   ms-help://MS.VSCC/MS.MSDNVS/sdkintro/usage_8xgz.htm ("Using the SDK Headers")
+
+*) require only version 4.00 of Shell32.dll
+
+*) delay load of shell32.dll, shlwapi.dll, and comctl32.dll with proper version checking
+
+*) InitializeCriticalSectionAndSpinLock is linked dynamically with GetProcAddress
+
+*) fixed bug: putting a document to disk, deleting the file and parent directory, and then
+   putting the document to disk again would result in a fatal error
+
+*) fixed bug: under certain conditions, resizing list control columns would result in
+   flickering and prevent the app from redrawing
+
+*) rewrote "delay show" logic for ChecksumDialog, ReconstructionDialog, and
+   SecureDeleteFlushDialog.
+
+------------------------------------------------------------------------------------------
+209
+------------------------------------------------------------------------------------------
+
+*) fixed bug: unshare was incompatible with lock folding
+
+*) added checksum to datastore transaction log file
+
+*) fixed bug: server deadlocks if service stopped while users connected
+
+*) temporary: disabled file and directory access restrictions; it was causing too many
+   error messages on some systems; will re-enable when we can better handle errors
+
+*) fixed bug: selected filter would switch back to "recent documents" during
+   multi-directory import
+
+*) system tray icon hover text now reports the number of documents in the unread filter,
+   not just the number of bold items; this results in a much faster session start-up if
+   there are a lot of unread documents
+
+*) fixed bug: at session start-up, auto-synch could attempt to download a document twice,
+   resulting in a fatal error
+
+*) fixed bug: extra notifications sent to frontend if user or peer deletes document
+   during download/synchronize
+
+*) added 3rd party copyright notices to About Box
+
+*) fixed bug: all documents with tasks, not just docs with incomplete tasks, were being
+   shown in "incomplete tasks" filter
+
+*) added message box that displays when user double-clicks on document that is
+   downloading, telling them that the command is unavailable until download complete
+
+------------------------------------------------------------------------------------------
+Build 208
+------------------------------------------------------------------------------------------
+
+*) fixed invalid version numbers in WM_DCN_CONNECTION_INVALID_VERSION handler
+
+*) changed keep alive timeout logic in server: server does not reset keep alive timeout
+   for any client message, just a ping response.  before, when server reset for any
+   message, client would not receive ping while uploading large message and as a result
+   client would falsely conclude that server was disconnected.
+
+*) fixed long delay when logging in to release server (message queue was using truerand
+   prng, rather than yarrow)
+
+------------------------------------------------------------------------------------------
+Build 207
+------------------------------------------------------------------------------------------
+
+*) moved log initialization before engine object construction in MainFrame::OnCreate
+
+*) fixed bug: work around InitCriticalSectionAndSpinCount problem on Win98
+
+*) fixed bug: "show new message balloons" option could change independently of user
+
+*) fixed bug: when exporting multiple documents, if all documents conflicting with a file
+   on disk and user chose to not overwrite any of them, an error message would be given
+
+------------------------------------------------------------------------------------------
+Build 206
+------------------------------------------------------------------------------------------
+
+*) added ability to decrypt old-style blowfish packages (used for converted 1.1 databases)
+
+------------------------------------------------------------------------------------------
+Build 205
+------------------------------------------------------------------------------------------
+
+*) Version 2.0
+
+------------------------------------------------------------------------------------------
+Build 114
+------------------------------------------------------------------------------------------
+
+???
+
+
+*) fixed bug: in message view window, recipient list was shown in the subject
+   field, as well as being shown in recipient field (subject was shown nowhere)
+
+*) fixed bug: crash recovery file (open documents) wasn't being secure-deleted
+
+*) temporary and work files now created with FILE_ATTRIBUTE_NOT_CONTENT_INDEXED flag
+
+*) added ability to remove notes
+
+*) changed name of "Message Outbox" filter to "Sent Messages"
+
+*) fixed bug: in case of failure to properly restrict permissions on file, filename
+   wasn't displayed correctly
+
+*) fixed bug: checking signatures for documents or messages no longer crashes
+
+*) user is now prompted/warned if the attempt to export a file which is currently
+   being edited
+
+*) fixed bug: EFS option in initial key generation dialog wasn't sticking -- option
+   would always be set to encrypt-work-directory
+
+*) fixed bug: "Export Folder" menu item was always disabled
+
+*) fixed bug: clicking share list checkbox didn't select user (causing unexpected
+   behaviour if the "Set Permissions" button is then used)
+
+*) fixed bug: the delete key was not behaving properly in the document search dialog nor
+   while editing labels in the tree and document list
+
+*) directory names are now overwritten a number of times (26) before being removed
+
+*) fixed bug: "Connected to CipherShare" message was being immediately cleared from
+   status bar after initial connection
+
+*) name of document is now included in balloons and entries in the status window for
+   created and modified documents
+
+------------------------------------------------------------------------------------------
+Build 111
+------------------------------------------------------------------------------------------
+
+*) fixed bug: checkpoint incorrectly made files read-only
+
+*) fixed bug: sometimes unread message was not displayed as bold
+
+------------------------------------------------------------------------------------------
+Build 110
+------------------------------------------------------------------------------------------
+
+*) fixed user private data (options) synchronization bugs
+
+*) optimized message inbox/outbox: decrypts document header on-demand if sort column is
+   date (since date is stored unencrypted); default sort column set to date
+
+*) fixed bug: database file was always written when a lock was requested
+
+------------------------------------------------------------------------------------------
+Build 109
+------------------------------------------------------------------------------------------
+
+*) use system settings date/time formats
+
+*) backup tag file
+
+*) added user name and office name to title bars of main window and message windows
+
+*) fixed MMX CPU detection
+
+*) fixed service manager validation of backup fields
+
+*) fixed bug: backup wait time calculation overflow
+
+*) file size limit set back to 16MB
+
+*) "trust list" and "trusted extensions" renamed to "safe extensions"
+
+*) fixed backwards compatibility with 104 index.dat file
+
+------------------------------------------------------------------------------------------
+Build 108
+------------------------------------------------------------------------------------------
+
+*) TEMPORARILY disabled MMX CPU detection
+
+*) no longer try to set empty SACL (audit) in NTFS permissions (non-admin users do not
+   have sufficient privileges)
+
+*) multiple instances now have their own work directory shortcuts on the desktop and
+   in My Documents.
+
+*) Added EFS checkbox to New Account Wizard
+
+*) disabled NTFS permissions and EFS on Windows XP Home Edition
+
+*) UseEncryptedFileSystem fails silently if unsupported by current OS
+
+*) fixed bug: no delete notification to MainFrm in case of create duplicate overwrites
+
+*) previously, if a folder was the last filter as the end of a session, the next session
+   would start in the recent filter; now the next session will start in the folder
+
+*) fixed bug: actions which cause automatic flipping back to a document filter (such as
+   choosing check-in-all) would cause a crash if the last document filter was a folder
+
+*) online backup
+
+*) removed database mutex
+
+*) file size limit set to 50MB
+
+*) update/invalid version notices
+
+------------------------------------------------------------------------------------------
+Build 107
+------------------------------------------------------------------------------------------
+
+*) now using MMX Gladman AES.  require/detect CPU support for MMX on startup.
+   currently do not support non-MMX Pentium I, non-MMX AMD K-6, 486, etc.
+
+*) fixed bug: crash recovery when working offline...?
+
+*) task dialog: added discard changes prompt in new/edit task dialog, made task
+   completed by field required (non blank) if completed checked off
+
+*) replaced message boxes with help bubbles for input validation
+
+*) crash recovery for messages
+
+*) fixed bug: batch modify recipient's status bar progress indicator not reset
+
+*) fixed timestamp bug: manage_local_users failed to copy new timestamp for current user
+
+*) fixed trust level bug: manage_local_users didn't preserve trust level (so remote
+   manage would reset trust of users)
+
+*) enabled keyboard-triggering of context menu in lists and tree (by shift+F10 and
+   Windows keyboard context menu key)
+
+*) disabled error log menu command if there is no log file name available
+
+*) fixed bug: create_local_split_document failed to set split_username, resulting in
+   missing keys when messages are touched and shared with the entire share list rather
+   than just the split user
+
+*) fixed bug: no longer crashes if "new version" option is chosen to resolve duplicate
+   document ID when creating document
+
+*) fixed bug: when in offline mode, double-click no longer allows online-only actions
+   (like document edit or message reply)
+
+*) changed secure delete progress dialog: 1) shows count of deleted files ("x of y");
+   2) temporary files are shown only as "Temporary file", without showing file name.
+
+*) fixed bug: document unique ID checking is now case-insensitive
+
+*) last activity time and last login time
+
+*) added basic required-OS checking on client startup
+
+*) added FAT32 (more generally, non-ACL) file system detection and warning (for NT, etc.)
+
+*) fixed "N/A" bug in server session summary log entry
+
+*) on-the-fly file permission restrictions
+
+*) notification bubble text also displayed in status window (unconditionally)
+
+*) memory optimizations: free encrypted object buffers immediately after decrypting, before
+   deserializing; free objects immediately after serializing, before encrypting; free old
+   current version buffer before loading new current version buffer; share encrypted
+   content buffer for pending local and master documents; peak memory usage efficient
+   versions of wrap_package and unwrap_package
+
+*) increased default size of trust column in User Directory to fully display Indirectly...
+
+*) fixed bug: user directory now shown properly when it's the initial filter
+
+*) updated Gladman AES code
+
+*) added label editing to folder tree and document list
+
+*) fixed bug: users automatically put on message recipient list (because of a reply or
+   reply-all) could not be removed it -- even though it looked like they were removed
+
+*) NTFS access permissions for working folder restricted to current user only
+
+*) disabling EFS option does not force decryption of working folder
+
+*) silenced "secure_document_database::note_unlock: document not locked" log entry
+
+*) fixed (minor) memory leak in NewPasswordWizard
+
+*) moved set_hashed_passphrase function call to background thread in NewPasswordWizard
+
+*) fixed bug: marked as deleted files showed up in Recent Files list
+
+*) fixed bugs: safe path detection failed due to incorrect handling of trailing \ in
+   database path, and also failed due to incorrect usage of towupper with Unicode string
+
+*) removed EFS warning (replaced with error message box if operation fails)
+   addendum: if shared drive/folder test fails, EFS option on but EncryptFile fails, or
+   OS supports NTFS but setting NTFS permissions fails, then in each case the user gets
+   a message box asking if he wants to continue.  In each case the Unsafe Path warning is
+   also displayed, and this warning box has "don't show me this again"
+
+*) modified Unsafe Path warning to mention new NTFS permissions security and explain
+   that EFS is optional and slow
+
+*) fixed bug: change private data (or other non-timestamp-updating) would cause document
+   to disappear from Recent filter (if it was the current filter)
+
+*) fixed bug: fatal would happen in following situation: folder last selected document
+   filter; current filter not document filter (e.g., message inbox); document created
+   by other user and shared with current user
+
+*) changed default recent count from 30 to 10
+
+------------------------------------------------------------------------------------------
+Build 106
+------------------------------------------------------------------------------------------
+
+*) always display "<username>'s documents" folder, even if empty
+
+*) recent documents now displays last N modified documents
+
+*) added Help button to Detect New Work Files
+
+*) added warnings for Options that don't take affect without reconnect
+
+*) new default secure delete procedure: simple (faster) one-pass pseudo-random data
+
+*) fixed bug: paste into message compose recipient list didn't update trust level
+
+*) user directory
+
+*) message windows now open cascaded with other message windows (instead of opening
+   in exactly the same position as other message windows)
+
+*) Fixed memory leak of encrypted buffer in SymmetricKey::ChangeMasterKey
+
+*) Fixed bug: log file code appends \ to database path if necessary
+
+*) Fixed bug: log file directory was fixed as registry database path value on
+   application startup; now uses database path for each profile
+
+*) Added profiles to Connect dialog
+
+*) Allow run multiple instances of CipherShare; checks for database lock file
+   to prevent conflicts
+
+*) Added Other submenu to document and message right click menus
+
+*) fixed server bug: with three clients competing for a single user login,
+   authenticated_users lookup became corrupted and eventually the server fatal'd.
+
+*) shift + DEL now does a full delete
+
+*) made the 'Work' function available in offline mode
+
+*) removed file size calculation from service manager office tab (should be replaced
+   with faster code)
+
+*) partitioned batch lock/sync-on-demand response
+
+*) batch list control refreshes
+
+*) fixed bug where make_notification_document ignored inline content
+
+*) removed time synchronization and removed validations dependent on client local time
+
+*) fixed bug whereby random number generators were not reset between login sessions
+   in a single run of the application
+
+*) message header labels are bold
+
+*) in-your-face, annoying, on demand key signing
+
+*) resizable dialogs always center on parent dialog (ignore last position, save last size)
+
+*) fixed bug in share list: removing multiple users from share list would fail
+   to remove certain users
+
+*) folder-recursive changing of properties or sharelist now has one modify
+   transactions per folder (to help avoid memory problems)
+
+*) added trusted extension checking to attachment launching
+
+*) cancelling out of duplicate name/path resolution now releases locks
+
+*) changed recursive folder properties edit to keep sub-folder structure
+
+*) optional MSN-style balloon for user online/offline notifications
+
+*) Compose and Reply are now enabled during transaction state
+
+*) Replaced references to "Partially trusted" with "Indirectly trusted"
+
+*) optional MSN-style balloon for new message and create/modify documents notifications
+
+*) trust level displayed in document list
+
+*) users with expired keys are now treated as untrusted users (instead of FATAL)
+
+*) added prompt to clear work files for documents selected for properties edit
+   (so that the properties can actually be edited)
+
+*) added better open-in-native-app checking to 'clear work files'
+
+*) fixed forced-disconnect-while-transaction-in-progress so that it actually disconnects
+
+*) fixed bug where document on disk which is modified by other user doesn't get updated
+
+*) added option to turn on OS-level encryption of work directory (where supported by
+   OS -- i.e., Win2K, WinXPpro)
+
+*) removed cached user info.  all user data is fetched on demand from database.  options
+   and current user full name, email, etc. is cached in CMainFrame.  All dialogs must
+   access options indirectly since pointer may become invalid during lifetime of dialog.
+
+*) toolbar and status bar visible state persistent
+
+*) Added user private data object with independent timestamp.  Modifying options no
+   longer results in a broadcast.
+
+*) Check In/Check Out/Undo Check Out commands are now enabled if any selected document
+   is a valid candidate for the specified action.  Previously, the command was enabled only
+   if all selected documents were valid candidates.
+
+*) Added "who's online" information to protocol.  Currently no GUI display.
+
+*) added prompts to all actions where the content of a document or message
+   will be synchronized
+
+*) integrated Gladman Rijndael code
+
+*) removed MT pseudorandom number generator (GNU license)
+
+*) Blowfish and SHA-1 are compiled with Intel compiler (precompiled .obj files
+   are added to project) yielding up to 33% speedup.
+
+*) batch commands: set private data, lock, unlock, delete, modify
+
+*) fixed the export command on the versions page -- it now exports the version
+   which is selected (instead of only the newest version, regardless of selection)
+
+*) added prompt to 'Synchronize All' which gives number of documents (or messages)
+   that will be synched
+
+*) attachments automatically copied over when message forwarded
+
+*) fixed resize bug: size wasn't saved in Import/Create wizard if Finished clicked on
+   second page (Sharing)
+
+*) split encrypted document properties into "header" and "metadata" buffers.  Data like
+   notes, tasks, message body, etc. moved to second buffer.  This speeds up document and
+   message list loading and browsing since non-displayed information is not decrypted.
+
+*) fixed session key bug: server didn't use new Diffie Hellman session key when returning
+   errors in handle_login, which resulted in invalid data or HMAC errors on client
+
+*) fixed disconnected logic: "Disconnected from CipherShare server" now appears only
+   for unexpected disconnects, not for errors like invalid password
+
+*) added DCN_LOGIN_SUCCESS message
+
+*) server enforces sync message order
+
+*) implemented client terminate logic: server allows terminated client a minute to
+   receive last error message before closing socket
+
+*) simple rollback
+
+*) fixed local deleted document check in secure_document_database
+
+*) added client local time check to server login handler
+
+*) added message preview pane header bar
+
+*) prompt user for autowork default
+
+*) inactivity timeout: now called Lockout; added manual Lockout command; always
+   triggered, even if modal dialog active; timeout reset when using message
+   frame window. --------> this is still broken
+
+*) touch command: touch now does a non-modifying modify (and thus re-encryption)
+   of all documents with write permission, and all private data
+
+*) fixed server user sync bug: share groups were sent with first stage of
+   user sync, which could cause an invalid signature check since the signer
+   of a share group may not be synced yet; also sync_share_groups flag was
+   not initialized, resulting in random syncs of a null share group object
+
+*) fixed log file name (was <DATABASE_PATH>ciphershare_log.txt, now is
+   <DATABASE_PATH>\ciphershare_log.txt) -- GetDataPath now ensures that
+   return value has terminating slash
+
+*) shortcut to CipherShare working directory now automatically created
+   in user's My Documents and Desktop directories after successful login
+
+*) added some more message/attachment functionality and features:
+  *) added file size column and total attachment size to the compose
+     attachments and read attachments dialogs
+  *) made compose attachments and read attachments dialogs resizable
+  *) added the ability to launch (view, view-with) attachments from the
+     read attachments dialog
+  *) double-clicking in both the read attachments dialog and in the
+     attachments list in the read message window prompts to
+     view/view-with/export
+  *) made the compose-attachments dialog a file-drag-drop target
+  *) added the ability to remove attached files from both
+     compose-attachments dialog and main message window attachment lists
+     by hitting the DEL key
+
+*) fixed share groups dialog so that it properly stores public/private status
+
+*) added email notification for messages
+
+*) added status window (aka log view pane)
+
+*) fixed memory leak in client: didn't free memory when a document content was
+   synchronized (but did free if full document was synced)
+
+*) fixed disconnect disable (tree and lists were not disabled)
+
+*) fixed startup filter selection (non-current filter flashed on screen)
+
+*) removed background images
+
+*) new list control replacing CReportCtrl
+
+*) touch command to intelligently update files to use new ciphers and keys
+
+*) integrated new cipher
+
+*) filter optimization
+
+*) fixed server bug in lock and unlock which notified entire share list even for
+   "split" documents
+
+*) added touch command to upgrade cipher in existing documents and messages
+
+*) fixed interactive fatal: AfxThrowUserException sometimes didn't abort process, so I
+   changed throw to unhandled_exception class.
+
+*) replaced CMap with CRehashMap
+
+*) replaced user info array and map with document_user_info class
+
+------------------------------------------------------------------------------------------
+Build 104
+------------------------------------------------------------------------------------------
+
+*) fixed server bug: server sent document notifications to all clients as long as client
+   has synced users, but this resulted in strange visual behaviour (displays new documents
+   before login complete, and worse -- short-circuited the synchronize since a notify would
+   update local last known timestamp).  new fix enqueues all notifications until after all
+   syncs complete, after which point all enqueued notifications are flushed.  (this can
+   result in a duplicate sync/notify, but this isn't a problem).
+
+*) changed document size limit to 16MB.  Furthermore, in the case of documents, the size
+   limit is enforced *after* compression.
+
+*) changed transport package size limit to 32MB
+
+------------------------------------------------------------------------------------------
+Build 103
+------------------------------------------------------------------------------------------
+
+*) fixed synchronization bug: client overwrite correct content_size with old value
+   when synchronizing new document but leaving new content unsynched.  this resulted
+   in server disconnection due to invalid data when performing tasks that do not
+   require content sync: change name, change tasks, notes, etc.
+
+*) added Intranet range selection to Connect dialog box
+
+*) fixed server bug: manage users function scrambled user data fields when modifying
+   multiple users
+
+*) fixed client bug: manage users submitted new users repeatedly after first user
+   manage dialog box session
+
+*) fixed server bug: failed to send notification to user removed from share list in
+   overwrite case
+
+*) Multiple document sharing
+
+*) Work command
+
+*) Check-in/out/undo by folder
+
+*) added Select All to documents and messages menu
+
+*) changed View, Work, and Manage permission names to Reader, Author, and Manager
+
+*) fixed memory leak in server: sync or lock unsynched document operations caused memory
+   leak proportional to size of document
+
+*) fixed bug in synchronization whereby some deleted or revoked documents were not
+   removed from local database; in certain circumstances, existing users may have
+   to reset their local databases to remove these rogue documents
+
+*) fixed display of "&" in CReportCtrl
+
+*) separated UpdateCmdUI handlers for document and message delete
+
+*) expanded current user's node in share tree
+
+*) fixed toolbar and BCMenu icons transparency
+
+*) fixed deleted_document memory leak and duplicate pointer bug in database
+
+*) added right-click menu to folder tree
+
+*) BrowseForFolder dialog in client: added new style (New Folder, resize, etc.) and stored
+   last folder so subsequent browses start at the previous location
+
+*) fixed server exception handling: process no longer hangs when custom or system exception
+   thrown (presumably it hung because of the message boxes); custom handler for system
+   exceptions write to log file
+
+*) removed "secure_document_database::delete_local_document: document id not found" log message
+
+*) cached results of GetExtensionFullName
+
+*) added CipherShare, CipherShareSciex, and CipherShareSciexExternal Wise scripts to
+   client Release post-build step
+
+*) undid intranet server detection hack
+
+*) temp files no longer use "CipherShare - " or "CipherShare (read-only) - " prefixes
+
+*) default column settings put into code; should not be set in install
+
+*) fixed unique temporary file name creation
+
+*) added per-file overwrite prompts to all exports
+
+*) private data is no longer immediately created for message and document creations or
+   modifications; should speed filters up a little [known issue: if you import documents
+   using a version with this feature, then access those documents using an old version
+   without this feature, you will see some "false" unread states]
+
+*) added Rijndael cipher for documents
+
+*) cached prepared Blowfish master and local keys
+
+*) fixed bug whereby last line in message is cut off in reply
+
+*) added incremental build number; About Box displays build number and build date
+
+*) fixed key trust bug: fully trusted key was incorrectly displayed as "Unknown" in
+   Fingerprint dialogs
+
+*) fixed sorting of folder tree
+
+*) fixed disabled user/share list bug whereby saving changes to a document with a disabled
+   user on the share list caused an error; now the disabled user is removed (with prompt)
+
+*) added "current" document count and message count to status bar
+
+*) split temporary files into subdirectories based on hash of folder name(s)
+
+*) added ping options to client and service manager; tab dialog for service manager
+
+------------------------------------------------------------------------------------------
+July 31, 2001 (Sciex)
+------------------------------------------------------------------------------------------
+
+*) fixed ping bug in client whereby messages would not get sent after a ping was sent
+
+*) added ping/pong to sockets to prevent proxy timeout
+
+*) changed get_creator and get_modifier to return server time, not client time
+
+*) fixed bugs in revocation: revoked users were not sent a delete notification; an extra
+   unlock notification was added for revoked users
+
+*) fixed bugs in database synchronization (multi-message syncs sent highest timestamp
+   objects first, so subsequent messages would not return any more objects); and enhanced
+   size estimates for multi-message threshold
+
+*) added 'Quit' button to timeout dialog which ungracefully disconnects client and closes
+
+*) timeout dialog dismisses itself if disconnected
+
+*) added restrictions to allowable characters in path-folder names
+
+*) fixed case-sensitivity bug in create_server_office and service manager (office name
+   is now forced to lower case)
+
+*) allowed unlimited text in AutoRichEdit
+
+*) changed prefix/line break algorithm for message reply
+
+*) added key trust level icon to message compose window
+
+*) fixed Options security tab (trust level warning wasn't subclassed properly)
+
+*) changed key trust path to contain enough information to display the full trust
+   path in the fingerprint trust tab
+
+*) fixed bug where clicking a user section would result in multiple key trust
+   level warnings
+
+*) key trust level warning added to sharing dialog, create wizard, send message
+
+*) key trust level icon and label added to all share trees
+
+*) share tree:
+  - dragging uses now triggers modified
+  - re-enabled double-click
+  - disallowing deletion of sections/subsections
+
+*) manage keys: can only generate one of each type per dialog session
+
+*) Fixed client user manager and server to allow subsection administrator to
+   successfully create a new user
+
+*) Added URL highlighting and linking to AutoRichEdit control
+
+*) Fixed MsgMainFrm memory leak by destroying default menu
+
+*) Fixed KeySigningDialog to disallow user to sign his own key
+
+------------------------------------------------------------------------------------------
+Version 1.00 - July 10, 2001
+------------------------------------------------------------------------------------------
